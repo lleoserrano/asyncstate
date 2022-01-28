@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: ThemeMode.dark,
-      navigatorObservers: const [
-        // AsyncState.observer
+      navigatorObservers: [
+        AsyncState.observer
       ], //TODO Add Observer navigator para pegar o contexto.
       theme: ThemeData.dark(),
       home: HomePage(),
