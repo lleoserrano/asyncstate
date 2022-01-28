@@ -1,4 +1,5 @@
-import 'package:asyncstate/observers/async_navigator_observer.dart';
+import '/exceptions/async_state_exception.dart';
+import '/observers/async_navigator_observer.dart';
 import 'package:flutter/material.dart';
 
 //TODO Classe static que é inicializada
@@ -40,7 +41,10 @@ class AsyncStateClass<T> {
     Future<T> futureFunction,
   ) async {
     debugPrint('Call - ${_getStackName()}');
-
+    if (context == null) {
+      throw AsyncStateException(
+          'Context not found. Did you forget to add the AsyncStateClass.observer in your navigatorObservers?');
+    }
     //TODO Chama os dois future ao mesmo tempo .... o dialog fica até o futureFunction terminar e dar o pop.
     final futures = await Future.wait([
       showDialog(

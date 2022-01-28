@@ -3,12 +3,17 @@ import 'package:example/components/my_loadig.dart';
 
 class HomeController with AsyncStateMixin {
   Future<bool> loginSucesso() async {
-    return await Future.delayed(const Duration(seconds: 3), () {
-      return true;
-    }).asyncLoader(
-        customLoader: const MyLoading(
-      texto: 'Fazendo login!!!!',
-    ));
+    try {
+      return await Future.delayed(const Duration(seconds: 3), () {
+        return true;
+      }).asyncLoader(
+          customLoader: const MyLoading(
+        texto: 'Fazendo login!!!!',
+      ));
+    } on AsyncStateException catch (e) {
+      print(e.exception);
+      return false;
+    }
   }
 
   Future<void> loginError() async {
