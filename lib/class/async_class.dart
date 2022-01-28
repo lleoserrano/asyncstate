@@ -39,7 +39,7 @@ class AsyncStateClass<T> {
     Widget? customLoader,
     Future<T> futureFunction,
   ) async {
-    debugPrint('Call - ${futureFunction.hashCode}');
+    debugPrint('Call - ${_getStackName()}');
 
     //TODO Chama os dois future ao mesmo tempo .... o dialog fica até o futureFunction terminar e dar o pop.
     final futures = await Future.wait([
@@ -56,7 +56,13 @@ class AsyncStateClass<T> {
       }),
     ]);
 
-    debugPrint('Close - ${futureFunction.hashCode}');
+    debugPrint('Close - ${_getStackName()}');
     return futures[1] as T;
+  }
+
+  String _getStackName() {
+    var value = StackTrace.current.toString().split('\n');
+    value.removeWhere((element) => !element.startsWith('#4'));
+    return value[0].substring(2).replaceAll(' ', '');
   }
 }
