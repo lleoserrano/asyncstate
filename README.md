@@ -1,4 +1,4 @@
-<h1 align="center">Async Loader</h1>
+<h1 align="center">Async State</h1>
 
 <p align="center">
   <a href="https://flutter.dev">
@@ -40,18 +40,15 @@ $ flutter pub get
 Now in your `Dart` code, you can use:
 
 ```dart
-import 'package:asyncloader/asyncloader.dart;'
+import 'package:asyncstate/asyncstate.dart;'
 ```
-`OR For Mixin`
-```dart
-import 'package:asyncloader/mixin/async_loader.dart';
-```
+
 # Usage
 
-`AsyncLoaderClass`:
+`AsyncStateClass`:
 ```dart
 void main() {
-  AsyncLoaderClass.onInitAsyncLoaderState(
+  AsyncStateClass.onInitAsyncState(
     defaultDialogWidget:
         const MyLoading(), //TODO Seta o Widget de loading inicial.
   );
@@ -71,7 +68,7 @@ void main() {
     return MaterialApp(
       themeMode: ThemeMode.dark,
       navigatorObservers: [
-        AsyncLoaderClass.observer //TODO Here
+        AsyncStateClass.observer //TODO Here
       ], 
       theme: ThemeData.dark(),
       home: HomePage(),
@@ -79,11 +76,11 @@ void main() {
   }
 }
 ```
-`Add "AsyncLoaderClass.observer" on MaterialApp.`
+`Add "AsyncStateClass.observer" on MaterialApp.`
 
 # Bugs or Requests
 
-If you encounter any problems feel free to open an [issue](https://github.com/DevLSerrano/asyncloader/issues). If you feel the library is missing a feature, please raise a [ticket](https://github.com/DevLSerrano/asyncloader/pulls) on GitHub and I'll look into it. Pull request are also welcome.
+If you encounter any problems feel free to open an [issue](https://github.com/DevLSerrano/asyncstate/issues). If you feel the library is missing a feature, please raise a [ticket](https://github.com/DevLSerrano/asyncstate/pulls) on GitHub and I'll look into it. Pull request are also welcome.
 
 # Contributors
 
