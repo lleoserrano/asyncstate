@@ -26,7 +26,8 @@ class AsyncStateClass<T> {
     required Widget defaultDialogWidget,
   }) : _defaultDialog = defaultDialogWidget;
 
-  Future<T> callAsyncLoader(Future<T> futureFunction, {Widget? customLoader}) async {
+  Future<T> callAsyncLoader(Future<T> futureFunction,
+      {Widget? customLoader}) async {
     try {
       return await _callDialog(customLoader, futureFunction);
     } catch (e) {
