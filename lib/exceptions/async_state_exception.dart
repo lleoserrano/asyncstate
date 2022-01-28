@@ -1,5 +1,7 @@
 class AsyncStateException with Exception {
-  String? exception;
+  final String exception;
 
-  AsyncStateException(this.exception);
+  AsyncStateException.errorContext(
+      {this.exception =
+          'Context not found. Did you forget to add the AsyncStateClass.observer in your navigatorObservers?'});
 }

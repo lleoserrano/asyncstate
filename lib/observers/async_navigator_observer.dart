@@ -6,21 +6,21 @@ class AsyncNavigatorObserver extends NavigatorObserver {
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    asyncStateClass.setContext = navigator!.context;
+    asyncState.setContext = navigator!.context;
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    asyncStateClass.setContext = navigator!.context;
+    asyncState.setContext = navigator!.context;
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    asyncStateClass.setContext = navigator!.context;
+    asyncState.setContext = navigator!.context;
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) async {
-    asyncStateClass.setContext = navigator!.context;
+    asyncState.setContext = navigator!.context;
   }
 }

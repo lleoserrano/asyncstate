@@ -9,7 +9,7 @@ export 'exceptions/async_state_exception.dart';
 extension AsyncLoader<T> on Future<T> {
   Future<T> asyncLoader({Widget? customLoader}) async {
     try {
-      return await asyncStateClass.callAsyncLoader(
+      return await asyncState.callAsyncLoader(
         this,
         customLoader: customLoader,
       );

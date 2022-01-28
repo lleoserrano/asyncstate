@@ -10,8 +10,8 @@ class HomeController with AsyncStateMixin {
           customLoader: const MyLoading(
         texto: 'Fazendo login!!!!',
       ));
-    } on AsyncStateException catch (e) {
-      print(e.exception);
+    } catch (e) {
+      // debugPrint(e.toString());
       return false;
     }
   }

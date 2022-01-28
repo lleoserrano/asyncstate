@@ -5,7 +5,7 @@ import '../asyncstate.dart';
 mixin AsyncStateMixin<T> {
   Future<T> callAsyncLoader(Future<T> futureFunction,
       {Widget? customLoader}) async {
-    return await asyncStateClass.callAsyncLoader(
+    return await asyncState.callAsyncLoader(
       futureFunction,
       customLoader: customLoader,
     );

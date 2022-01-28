@@ -3,11 +3,10 @@ import '/observers/async_navigator_observer.dart';
 import 'package:flutter/material.dart';
 
 //TODO Classe static que é inicializada
-late final AsyncStateClass asyncStateClass;
+late final AsyncState asyncState;
 
-//TODO protected para evitar o user criar fora do package (acho que protege disso kkkk)
 @protected
-class AsyncStateClass<T> {
+class AsyncState<T> {
   final Widget _defaultDialog;
   BuildContext? context;
   static final _observer = AsyncNavigatorObserver();
@@ -19,11 +18,11 @@ class AsyncStateClass<T> {
   static onInitAsyncState({
     required Widget defaultDialogWidget,
   }) =>
-      asyncStateClass = AsyncStateClass(
+      asyncState = AsyncState(
         defaultDialogWidget: defaultDialogWidget,
       );
   //Constructor
-  AsyncStateClass({
+  AsyncState({
     required Widget defaultDialogWidget,
   }) : _defaultDialog = defaultDialogWidget;
 
@@ -42,8 +41,10 @@ class AsyncStateClass<T> {
   ) async {
     debugPrint('Call - ${_getStackName()}');
     if (context == null) {
-      throw AsyncStateException(
-          'Context not found. Did you forget to add the AsyncStateClass.observer in your navigatorObservers?');
+      debugPrintStack(
+        label: AsyncStateException.errorContext().exception,
+      );
+      throw AsyncStateException.errorContext();
     }
     //TODO Chama os dois future ao mesmo tempo .... o dialog fica até o futureFunction terminar e dar o pop.
     final futures = await Future.wait([
