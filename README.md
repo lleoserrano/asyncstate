@@ -87,7 +87,7 @@ void main() {
 
 # Bugs or Requests
 
-If you encounter any problems feel free to open an [issue](). If you feel the library is missing a feature, please raise a [ticket](https://github.com/DevLSerrano/asyncloader/pulls) on GitHub and I'll look into it. Pull request are also welcome.
+If you encounter any problems feel free to open an [issue](https://github.com/DevLSerrano/asyncloader/issues). If you feel the library is missing a feature, please raise a [ticket](https://github.com/DevLSerrano/asyncloader/pulls) on GitHub and I'll look into it. Pull request are also welcome.
 
 # Contributors
 
