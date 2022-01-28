@@ -1,11 +1,11 @@
-import 'package:asyncloader/asyncloader.dart';
+import 'package:asyncstate/asyncstate.dart';
 import 'package:example/components/my_loadig.dart';
 import 'package:flutter/material.dart';
 
 import 'home/home_page.dart';
 
 void main() {
-  AsyncLoaderClass.onInitAsyncLoaderState(
+  AsyncStateClass.onInitAsyncState(
     defaultDialogWidget:
         const MyLoading(), //TODO Seta o Widget de loading inicial.
   );
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       themeMode: ThemeMode.dark,
       navigatorObservers: [
-        AsyncLoaderClass.observer
+        AsyncStateClass.observer
       ], //TODO Add Observer navigator para pegar o contexto.
       theme: ThemeData.dark(),
       home: HomePage(),

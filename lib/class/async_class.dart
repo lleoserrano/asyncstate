@@ -1,12 +1,12 @@
-import 'package:asyncloader/observers/async_navigator_observer.dart';
+import 'package:asyncstate/observers/async_navigator_observer.dart';
 import 'package:flutter/material.dart';
 
 //TODO Classe static que é inicializada
-late final AsyncLoaderClass asyncLoaderClass;
+late final AsyncStateClass asyncStateClass;
 
 //TODO protected para evitar o user criar fora do package (acho que protege disso kkkk)
 @protected
-class AsyncLoaderClass<T> {
+class AsyncStateClass<T> {
   final Widget _defaultDialog;
   BuildContext? context;
   static final _observer = AsyncNavigatorObserver();
@@ -15,14 +15,14 @@ class AsyncLoaderClass<T> {
 
   //Static Init
   static AsyncNavigatorObserver get observer => _observer;
-  static onInitAsyncLoaderState({
+  static onInitAsyncState({
     required Widget defaultDialogWidget,
   }) =>
-      asyncLoaderClass = AsyncLoaderClass(
+      asyncStateClass = AsyncStateClass(
         defaultDialogWidget: defaultDialogWidget,
       );
   //Constructor
-  AsyncLoaderClass({
+  AsyncStateClass({
     required Widget defaultDialogWidget,
   }) : _defaultDialog = defaultDialogWidget;
 

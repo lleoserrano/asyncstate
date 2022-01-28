@@ -1,8 +1,7 @@
-import 'package:asyncloader/asyncloader.dart';
-import 'package:asyncloader/mixin/async_loader.dart';
+import 'package:asyncstate/asyncstate.dart';
 import 'package:example/components/my_loadig.dart';
 
-class HomeController with AsyncLoaderMixin {
+class HomeController with AsyncStateMixin {
   Future<bool> loginSucesso() async {
     return await Future.delayed(const Duration(seconds: 3), () {
       return true;
