@@ -21,9 +21,12 @@ class AsyncState<T> {
       asyncState = AsyncState(
         defaultDialogWidget: defaultDialogWidget ??
             const SizedBox(
-                width: 50,
-                height: 50,
-                child: Center(child: CircularProgressIndicator())),
+              width: 50,
+              height: 50,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
       );
   //Constructor
   AsyncState({
@@ -44,7 +47,7 @@ class AsyncState<T> {
     Widget? customLoader,
     Future<T> futureFunction,
   ) async {
-    debugPrint('Call - ${_getStackName()}');
+    debugPrint(_getStackName('Call'));
     if (context == null) {
       debugPrintStack(
         label: AsyncStateException.errorContext().exception,
@@ -66,17 +69,19 @@ class AsyncState<T> {
       }),
     ]);
 
-    debugPrint('Close - ${_getStackName()}');
+    debugPrint(_getStackName('Close'));
     return futures[1] as T;
   }
 
   //Get the stack trace (debug only)
-  String _getStackName() {
+  String _getStackName(String exibe) {
+    // print(StackTrace.current.toString());
     final value = StackTrace.current.toString().split('\n');
     value.removeWhere((element) => !element.startsWith('#4'));
+
     if (value.isEmpty) {
       return '';
     }
-    return value[0].substring(2).replaceAll(' ', '');
+    return '$exibe - ' + value[0].substring(2).replaceAll(' ', '');
   }
 }
