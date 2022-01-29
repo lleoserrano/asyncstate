@@ -15,7 +15,7 @@ class MyLoading extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(left: 20),
           child: Text(
-            texto ?? 'Carregando',
+            texto ?? 'Loading content...',
             style: const TextStyle(fontSize: 12),
           ),
         ),

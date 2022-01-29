@@ -6,8 +6,10 @@ import 'home/home_page.dart';
 
 void main() {
   AsyncState.onInitAsyncState(
-    defaultDialogWidget:
-        const MyLoading(), //TODO Seta o Widget de loading inicial.
+    defaultDialogWidget: const MyLoading(),
+
+    /// Here you can customize your default loading that will show every transaction
+    /// Leave it and it will show a simple CircularProgress indicator
   );
   runApp(const MyApp());
 }
@@ -20,9 +22,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: ThemeMode.dark,
-      navigatorObservers: [
-        AsyncState.observer
-      ], //TODO Add Observer navigator para pegar o contexto.
+      navigatorObservers: [AsyncState.observer],
+
+      /// Add Observer navigatowr para pegar o contexto.
       theme: ThemeData.dark(),
       home: HomePage(),
     );

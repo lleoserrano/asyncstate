@@ -2,12 +2,12 @@ import '/exceptions/async_state_exception.dart';
 import '/observers/async_navigator_observer.dart';
 import 'package:flutter/material.dart';
 
-//TODO Classe static que é inicializada
+/// Static class that will start the instance
 late final AsyncState asyncState;
 
 @protected
 class AsyncState<T> {
-  final Widget _defaultDialog;
+  final Widget? _defaultDialog;
   BuildContext? context;
   static final _observer = AsyncNavigatorObserver();
 
@@ -16,10 +16,14 @@ class AsyncState<T> {
   //Static Init
   static AsyncNavigatorObserver get observer => _observer;
   static onInitAsyncState({
-    required Widget defaultDialogWidget,
+    Widget? defaultDialogWidget,
   }) =>
       asyncState = AsyncState(
-        defaultDialogWidget: defaultDialogWidget,
+        defaultDialogWidget: defaultDialogWidget ??
+            const SizedBox(
+                width: 50,
+                height: 50,
+                child: Center(child: CircularProgressIndicator())),
       );
   //Constructor
   AsyncState({
@@ -35,6 +39,7 @@ class AsyncState<T> {
     }
   }
 
+  //Private method to call the loading dialog and handle the context.
   Future<T> _callDialog(
     Widget? customLoader,
     Future<T> futureFunction,
@@ -46,7 +51,7 @@ class AsyncState<T> {
       );
       throw AsyncStateException.errorContext();
     }
-    //TODO Chama os dois future ao mesmo tempo .... o dialog fica até o futureFunction terminar e dar o pop.
+    //Call both futures as the same time. the Dialog will still open until the futureFunction complete
     final futures = await Future.wait([
       showDialog(
         barrierDismissible: false,
@@ -65,9 +70,13 @@ class AsyncState<T> {
     return futures[1] as T;
   }
 
+  //Get the stack trace (debug only)
   String _getStackName() {
-    var value = StackTrace.current.toString().split('\n');
+    final value = StackTrace.current.toString().split('\n');
     value.removeWhere((element) => !element.startsWith('#4'));
+    if (value.isEmpty) {
+      return '';
+    }
     return value[0].substring(2).replaceAll(' ', '');
   }
 }

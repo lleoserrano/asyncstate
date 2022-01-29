@@ -2,13 +2,14 @@ import 'package:asyncstate/asyncstate.dart';
 import 'package:example/components/my_loadig.dart';
 
 class HomeController with AsyncStateMixin {
-  Future<bool> loginSucesso() async {
+  ///Method that simulates a login
+  Future<bool> loginSuccess() async {
     try {
       return await Future.delayed(const Duration(seconds: 3), () {
         return true;
       }).asyncLoader(
           customLoader: const MyLoading(
-        texto: 'Fazendo login!!!!',
+        texto: 'I am a custom loader!!!!!!!\nSign in!!',
       ));
     } catch (e) {
       // debugPrint(e.toString());
@@ -16,6 +17,7 @@ class HomeController with AsyncStateMixin {
     }
   }
 
+  ///Method that simulates a login error
   Future<void> loginError() async {
     try {
       await _fakeError().asyncLoader();
@@ -26,20 +28,22 @@ class HomeController with AsyncStateMixin {
 
   Future<void> _fakeError() async {
     await Future.delayed(const Duration(seconds: 3), () {
-      throw ('Erro em seus dados.');
+      throw ('Check your user or passowrd and try again!');
     });
   }
 
+  ///Check if the user is valid
   Future<bool> isValidUser() async {
     return await Future.delayed(const Duration(seconds: 3), () {
       return true;
     }).asyncLoader();
   }
 
+  /// Use 2 methods valid and login
   Future<bool> isValidUserAndLogin() async {
-    //TODO Neste casa não precisamos colocar ".asyncLoader()" pois as funções principais "isValidUser" e "loginSucesso" já possuem.
+    /// Neste casa não precisamos colocar ".asyncLoader()" pois as funções principais "isValidUser" e "loginSuccess" já possuem.
     return await isValidUser().then((value) async {
-      return await loginSucesso();
+      return await loginSuccess();
     });
   }
 

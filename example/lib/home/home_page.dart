@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
           Center(
             child: ElevatedButton(
               onPressed: () async {
-                if (await controller.loginSucesso()) {
+                if (await controller.loginSuccess()) {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -24,7 +24,7 @@ class HomePage extends StatelessWidget {
                   );
                 }
               },
-              child: const Text('Login Sucesso'),
+              child: const Text('Sign in with redirect page'),
             ),
           ),
           ElevatedButton(
@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('Erro!'),
+                        const Text('Failt to login! try again alter'),
                         Text(e.toString()),
                       ],
                     ),
@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
                 );
               }
             },
-            child: const Text('Login Falha'),
+            child: const Text('Login fail test'),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -54,13 +54,13 @@ class HomePage extends StatelessWidget {
                     content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: const [
-                    Text('Sucesso'),
-                    Text('É um user valido.'),
+                    Text('Success'),
+                    Text('This is a valid user'),
                   ],
                 )));
               }
             },
-            child: const Text('User Valido ?'),
+            child: const Text('Success sign in'),
           ),
           ElevatedButton(
             onPressed: () async {
@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
                 );
               }
             },
-            child: const Text('User Valido ? + Login Sucesso'),
+            child: const Text('Validate user and redirect page'),
           ),
         ],
       ),

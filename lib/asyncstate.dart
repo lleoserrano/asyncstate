@@ -7,6 +7,7 @@ export 'mixin/asyncstate_mixing.dart';
 export 'exceptions/async_state_exception.dart';
 
 extension AsyncLoader<T> on Future<T> {
+  //Extension on future to use in async metods
   Future<T> asyncLoader({Widget? customLoader}) async {
     try {
       return await asyncState.callAsyncLoader(
