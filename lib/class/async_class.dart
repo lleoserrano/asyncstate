@@ -1,13 +1,18 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+
 import '/exceptions/async_state_exception.dart';
 import '/observers/async_navigator_observer.dart';
 import 'package:flutter/material.dart';
 
 /// Static class that will start the instance
-late final AsyncState asyncState;
+final AsyncState asyncState = AsyncState();
 
 @protected
 class AsyncState<T> {
-  final Widget? _defaultDialog;
+  Widget? defaultDialog;
   BuildContext? context;
   static final _observer = AsyncNavigatorObserver();
 
@@ -15,23 +20,13 @@ class AsyncState<T> {
 
   //Static Init
   static AsyncNavigatorObserver get observer => _observer;
-  static onInitAsyncState({
+  static setLoaderPersonalized({
     Widget? defaultDialogWidget,
   }) =>
-      asyncState = AsyncState(
-        defaultDialogWidget: defaultDialogWidget ??
-            const SizedBox(
-              width: 50,
-              height: 50,
-              child: Center(
-                child: CircularProgressIndicator(),
-              ),
-            ),
-      );
+      asyncState.defaultDialog = defaultDialogWidget;
+
   //Constructor
-  AsyncState({
-    required Widget defaultDialogWidget,
-  }) : _defaultDialog = defaultDialogWidget;
+  AsyncState();
 
   Future<T> callAsyncLoader(Future<T> futureFunction,
       {Widget? customLoader}) async {
@@ -61,7 +56,19 @@ class AsyncState<T> {
         context: context!,
         useRootNavigator: false,
         builder: (_) => AlertDialog(
-          content: customLoader ?? _defaultDialog,
+          content: customLoader ??
+              defaultDialog ??
+              SizedBox(
+                width: 50,
+                height: 50,
+                child: Center(
+                  child: kIsWeb
+                      ? const CircularProgressIndicator()
+                      : Platform.isIOS
+                          ? CupertinoActionSheet()
+                          : const CircularProgressIndicator(),
+                ),
+              ),
         ),
       ),
       futureFunction.whenComplete(() {
