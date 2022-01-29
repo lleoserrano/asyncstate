@@ -48,7 +48,6 @@ class HomeController with AsyncStateMixin {
   }
 
   Future<void> isValidUserAndLoginError() async {
-    /// Neste casa não precisamos colocar ".asyncLoader()" pois as funções principais "isValidUser" e "loginError" já possuem.
     return await isValidUser().then((value) async {
       await loginError();
     });
