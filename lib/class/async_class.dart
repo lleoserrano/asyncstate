@@ -56,7 +56,8 @@ class AsyncState<T> {
         context: context!,
         useRootNavigator: false,
         builder: (_) => AlertDialog(
-          content: customLoader ??
+            content: WillPopScope(
+          child: customLoader ??
               defaultDialog ??
               SizedBox(
                 width: 50,
@@ -69,7 +70,8 @@ class AsyncState<T> {
                           : const CircularProgressIndicator(),
                 ),
               ),
-        ),
+          onWillPop: () async => false,
+        )),
       ),
       futureFunction.whenComplete(() {
         Navigator.of(context!).pop();
