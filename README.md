@@ -51,9 +51,26 @@ void main() {
 ```
 `Add "AsyncState.observer" on MaterialApp.`
 
-# Using as Mixin in your controller
+# Using as Mixin in your controller (callAsyncLoader())
 ```dart
 class HomeController with AsyncStateMixin {
+  
+  Future goBack(Function callback) async {
+    return await callAsyncLoader(
+      Future.delayed(
+        const Duration(seconds: 3),
+        () {
+          callback();
+        },
+      ),
+    );
+  }
+}
+```
+
+# Use as an extension anywhere (.asyncLoader())
+```dart
+class HomeController{
 
    Future<bool> login() async {
     try {
