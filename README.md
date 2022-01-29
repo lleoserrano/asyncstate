@@ -7,50 +7,23 @@
   </a>
 </p><br>
 
-
-# Installing
-
-### 1. Depend on it
-
-Add this to your package's `pubspec.yaml` file:
-
-```yaml
-dependencies:
-  async_loader: ^0.0.1
-```
-
-### 2. Install it
-
-You can install packages from the command line:
-
-with `pub`:
-
-```
-$ pub get
-```
-
-with `Flutter`:
-
-```
-$ flutter pub get
-```
-
-### 3. Import it
-
-Now in your `Dart` code, you can use:
-
-```dart
-import 'package:asyncstate/asyncstate.dart;'
-```
+# Where this package works!
+ [x] **Android** <br>
+ [x] **IOS**<br>
+ [x] **Web**<br>
+ [x] **Macos**<br>
+ [-] **Linux** (not tested yet)<br> 
+ [-] **Windows** (not tested yet)<br>
 
 # Usage
 
-`AsyncStateClass`:
+`AsyncState`:
 ```dart
 void main() {
-  AsyncStateClass.onInitAsyncState(
+  AsyncState.onInitAsyncState(
     defaultDialogWidget:
-        const MyLoading(), //TODO Seta o Widget de loading inicial.
+        const Center(child: CircularProgressIndicator())
+,       /// It will give you a default loading for every loading transaction
   );
   runApp(const MyApp());
 }         
@@ -68,7 +41,7 @@ void main() {
     return MaterialApp(
       themeMode: ThemeMode.dark,
       navigatorObservers: [
-        AsyncStateClass.observer //TODO Here
+        AsyncState.observer //This observer is important to get the context yo use the dialogs
       ], 
       theme: ThemeData.dark(),
       home: HomePage(),
@@ -76,7 +49,49 @@ void main() {
   }
 }
 ```
-`Add "AsyncStateClass.observer" on MaterialApp.`
+`Add "AsyncState.observer" on MaterialApp.`
+
+# Using as Mixin in your controller
+```dart
+class HomeController with AsyncStateMixin {
+
+   Future<bool> login() async {
+    try {
+      return await Future.delayed(const Duration(seconds: 3), () {
+        return true;
+      }).asyncLoader(
+          customLoader: const MyCustomLoadingWidget(
+        text: 'Sign in! Hold on!!!!',
+      ));
+    } catch (e) {
+      // debugPrint(e.toString());
+      return false;
+    }
+  }
+}
+  ```
+
+  # Call in your View like this
+  ```dart
+  ElevatedButton(
+              onPressed: () async {
+                if (await controller.login()) { 
+                  ///Use a Navigator to go to another page if your login is true
+                  ///You don't need to care about start of finish the loading, just what to do after or before!
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SecondPage(
+                              controller: controller,
+                            )),
+                  );
+                }
+              },
+              child: const Text('Sign in!'),
+            )
+  ```
+
+
 
 # Bugs or Requests
 

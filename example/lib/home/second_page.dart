@@ -22,12 +22,11 @@ class SecondPage extends StatelessWidget {
             height: 16,
           ),
           const Text(
-              'No botão abaixo a um loading de 3s e depois volta para pagina anterior.'),
+              'You can press the button above go back using the async loading.'),
           const SizedBox(
             height: 16,
           ),
-          const Text(
-              'É para que possa ver, que Navegação por gesto e botão "back" nativo não fecham o loading.'),
+          const Text("You can't go back with android back button from here! "),
           const SizedBox(
             height: 16,
           ),
@@ -39,7 +38,7 @@ class SecondPage extends StatelessWidget {
                 ),
               );
             },
-            child: const Text('Voltar com async.'),
+            child: const Text('Back with async!'),
           ),
         ],
       ),

@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import '../asyncstate.dart';
 
 class AsyncNavigatorObserver extends NavigatorObserver {
-  //TODO essa classe observa os tipos de rotas (Push, pop etc) e atualiza o contexto do controller.
-
+  /// This class will observe the routes like push, pop and other. the class will update de context to use in the controller
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     asyncState.setContext = navigator!.context;
