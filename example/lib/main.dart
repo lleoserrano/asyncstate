@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'home/home_page.dart';
 
 void main() {
-  AsyncState.onInitAsyncState(
+  AsyncState.setLoaderPersonalized(
     defaultDialogWidget: const MyLoading(),
 
     /// Here you can customize your default loading that will show every transaction
