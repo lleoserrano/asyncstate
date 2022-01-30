@@ -6,14 +6,35 @@
       alt="Platform" />
   </a>
 </p><br>
+<p align="center">
+  <a href="">
+    <img src="https://img.shields.io/badge/Platform-Flutter-02569B?logo=iOS"
+      alt="iOS" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/badge/Platform-Flutter-02569B?logo=Android"
+      alt="Android" />
+  </a>
+  <a href="">
+    <img src="https://img.shields.io/badge/Platform-Flutter-02569B?logo=macOS"
+      alt="Mac" />
+  </a><a href="">
+    <img src="https://img.shields.io/badge/Platform-Flutter-02569B?logo=Linux"
+      alt="Linux" />
+  </a>
+   </a><a href="">
+    <img src="https://img.shields.io/badge/Platform-Flutter-02569B?logo=Windows"
+      alt="Windows" />
+  </a>
+</p><br>
 
-# Where this package works!
+<!-- # Where this package works!
  [x] **Android** <br>
  [x] **IOS**<br>
  [x] **Web**<br>
  [x] **Macos**<br>
  [-] **Linux** (not tested yet)<br> 
- [-] **Windows** (not tested yet)<br>
+ [-] **Windows** (not tested yet)<br>-->
 
 # Usage
 
