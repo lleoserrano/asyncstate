@@ -21,9 +21,9 @@ class AsyncState<T> {
   //Static Init
   static AsyncNavigatorObserver get observer => _observer;
   static setLoaderPersonalized({
-    Widget? defaultDialogWidget,
+    Widget? defaultLoaderWidget,
   }) =>
-      asyncState.defaultDialog = defaultDialogWidget;
+      asyncState.defaultDialog = defaultLoaderWidget;
 
   //Constructor
   AsyncState();

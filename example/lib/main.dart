@@ -6,7 +6,7 @@ import 'home/home_page.dart';
 
 void main() {
   AsyncState.setLoaderPersonalized(
-    defaultDialogWidget: const MyLoading(),
+    defaultLoaderWidget: const MyLoading(),
 
     /// Here you can customize your default loading that will show every transaction
     /// Leave it and it will show a simple CircularProgress indicator
