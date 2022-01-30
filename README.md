@@ -49,7 +49,7 @@ void main() {
   runApp(const MyApp());
 }      
 ```
-`Difine your Widget with Loading default.`
+`Define your Widget with Loading default.`
 
 -------------------------------------------------------------------------------------
 ```dart
