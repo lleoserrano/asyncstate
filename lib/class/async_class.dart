@@ -66,7 +66,7 @@ class AsyncState<T> {
                   child: kIsWeb
                       ? const CircularProgressIndicator()
                       : Platform.isIOS
-                          ? CupertinoActionSheet()
+                          ? const CupertinoActivityIndicator()
                           : const CircularProgressIndicator(),
                 ),
               ),
