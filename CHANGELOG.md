@@ -1,3 +1,6 @@
+## 0.0.5
+* Build with Flutter 3.0.3
+
 ## 0.0.4
 * Change the CupertinoActionSheet to CupertinoActivityIndicator, because the CircularProgress from android is CupertinoActivityIndicator in IOS!
 * Tanks to @brasizza
