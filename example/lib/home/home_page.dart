@@ -8,9 +8,35 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          FloatingActionButton(
+            onPressed: () async {
+              await controller.userSuccess();
+            },
+          ),
+          const SizedBox(height: 10),
+          FloatingActionButton(
+            onPressed: () async {
+              await controller.userError();
+            },
+            backgroundColor: Colors.red,
+          ),
+        ],
+      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          SizedBox(
+            height: 24,
+          ),
+          controller.myUser.build(
+            loading: () => const CircularProgressIndicator(),
+            error: (e) => Text('$e <= Este é o Erro'),
+            success: (user) => Text('${user.name!} <= Este é o User'),
+          ),
+          Divider(),
           Center(
             child: ElevatedButton(
               onPressed: () async {

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 /// Static class that will start the instance
 final AsyncState asyncState = AsyncState();
 
-@protected
 class AsyncState<T> {
   Widget? defaultDialog;
   BuildContext? context;
