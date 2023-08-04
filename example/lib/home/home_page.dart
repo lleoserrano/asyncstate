@@ -8,8 +8,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Center(
             child: ElevatedButton(
@@ -24,7 +26,12 @@ class HomePage extends StatelessWidget {
                   );
                 }
               },
-              child: const Text('Sign in with redirect page'),
+              child: const Column(
+                children: [
+                  Text('Sign in with redirect page'),
+                  Text('With a custom loader'),
+                ],
+              ),
             ),
           ),
           ElevatedButton(
@@ -50,10 +57,10 @@ class HomePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               if (await controller.isValidUser()) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Text('Success'),
                     Text('This is a valid user'),
                   ],

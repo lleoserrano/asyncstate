@@ -102,7 +102,6 @@ class HomeController{
         text: 'Sign in! Hold on!!!!',
       ));
     } catch (e) {
-      // debugPrint(e.toString());
       return false;
     }
   }

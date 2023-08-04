@@ -1,18 +1,14 @@
 import 'package:asyncstate/asyncstate.dart';
-import 'package:example/components/my_loadig.dart';
+import 'package:example/components/my_custom_loading.dart';
 
 class HomeController with AsyncStateMixin {
   ///Method that simulates a login
   Future<bool> loginSuccess() async {
     try {
-      return await Future.delayed(const Duration(seconds: 3), () {
+      return await Future.delayed(const Duration(seconds: 5), () {
         return true;
-      }).asyncLoader(
-          customLoader: const MyLoading(
-        texto: 'I am a custom loader!!!!!!!\nSign in!!',
-      ));
+      }).asyncLoader(customLoader: const MyCustomLoading());
     } catch (e) {
-      // debugPrint(e.toString());
       return false;
     }
   }
