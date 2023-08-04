@@ -1,3 +1,6 @@
+## 1.0.0
+* Improve the loading to be much more independent and customizable
+
 ## 0.0.5
 * Build with Flutter 3.0.3
 

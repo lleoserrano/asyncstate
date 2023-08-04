@@ -1,11 +1,9 @@
-import 'dart:io';
+import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import '/exceptions/async_state_exception.dart';
 import '/observers/async_navigator_observer.dart';
-import 'package:flutter/material.dart';
 
 /// Static class that will start the instance
 final AsyncState asyncState = AsyncState();
@@ -42,10 +40,10 @@ class AsyncState<T> {
     Widget? customLoader,
     Future<T> futureFunction,
   ) async {
-    debugPrint(_getStackName('Call'));
+    log(_getStackName('Call'));
     if (context == null) {
-      debugPrintStack(
-        label: AsyncStateException.errorContext().exception,
+      log(
+        AsyncStateException.errorContext().exception,
       );
       throw AsyncStateException.errorContext();
     }
@@ -55,30 +53,26 @@ class AsyncState<T> {
         barrierDismissible: false,
         context: context!,
         useRootNavigator: false,
-        builder: (_) => AlertDialog(
-            content: WillPopScope(
+        useSafeArea: false,
+        builder: (_) => WillPopScope(
           child: customLoader ??
               defaultDialog ??
-              SizedBox(
+              const SizedBox(
                 width: 50,
                 height: 50,
                 child: Center(
-                  child: kIsWeb
-                      ? const CircularProgressIndicator()
-                      : Platform.isIOS
-                          ? const CupertinoActivityIndicator()
-                          : const CircularProgressIndicator(),
+                  child: CircularProgressIndicator.adaptive(),
                 ),
               ),
           onWillPop: () async => false,
-        )),
+        ),
       ),
       futureFunction.whenComplete(() {
         Navigator.of(context!).pop();
       }),
     ]);
 
-    debugPrint(_getStackName('Close'));
+    log(_getStackName('Close'));
     return futures[1] as T;
   }
 

@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
       navigatorObservers: [AsyncState.observer],
 
       /// Add Observer navigatowr para pegar o contexto.
-      theme: ThemeData.dark(),
+      // theme: ThemeData.dark(),
       home: HomePage(),
     );
   }
