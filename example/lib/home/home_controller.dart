@@ -1,8 +1,13 @@
 import 'package:asyncstate/asyncstate.dart';
+<<<<<<< Updated upstream
 import 'package:asyncstate/class/async_value.dart';
 import 'package:example/components/my_loadig.dart';
 
 import '../model/user_model.dart';
+=======
+import 'package:example/components/my_custom_loading.dart';
+import 'package:flutter/material.dart';
+>>>>>>> Stashed changes
 
 class HomeController with AsyncStateMixin {
   final myUser = User().asyncValue();
@@ -36,9 +41,14 @@ class HomeController with AsyncStateMixin {
       return await Future.delayed(const Duration(seconds: 3), () {
         return true;
       }).asyncLoader(
+<<<<<<< Updated upstream
           customLoader: const MyLoading(
         texto: 'I am a custom loader!!!!!!!\nSign in!!',
       ));
+=======
+        customLoader: const MyCustomLoading(),
+      );
+>>>>>>> Stashed changes
     } catch (e) {
       // debugPrint(e.toString());
       return false;
@@ -50,7 +60,16 @@ class HomeController with AsyncStateMixin {
     try {
       await _fakeError().asyncLoader();
     } catch (e) {
-      rethrow;
+      showMaterialBanner(
+        materialBanner: MaterialBanner(
+          actions: const [
+            SizedBox.shrink(),
+          ],
+          content: Text(
+            e.toString(),
+          ),
+        ),
+      );
     }
   }
 
@@ -69,10 +88,32 @@ class HomeController with AsyncStateMixin {
 
   /// Use 2 methods valid and login
   Future<bool> isValidUserAndLogin() async {
-    /// Neste casa não precisamos colocar ".asyncLoader()" pois as funções principais "isValidUser" e "loginSuccess" já possuem.
+    ///In this case we don't need to put ".asyncLoader()" because the main functions "isValidUser" and "loginSuccess" already have.
     return await isValidUser().then((value) async {
       return await loginSuccess();
     });
+  }
+
+  /// Use 2 methods valid and login
+  Future<void> loadMoreSnackBar() async {
+    await Future.delayed(const Duration(seconds: 10)).asyncLoader(
+      loaderType: LoaderType.snackBar,
+      customLoader: const SnackBar(
+        content: Text('Loading more...'),
+        duration: Duration(seconds: 90),
+      ),
+    );
+  }
+
+  /// Use 2 methods valid and login
+  Future<void> loadMoreMaterialBanner() async {
+    await Future.delayed(const Duration(seconds: 10)).asyncLoader(
+      loaderType: LoaderType.materialBanner,
+      customLoader: const MaterialBanner(
+        content: Text('Loading more...'),
+        actions: [SizedBox.shrink()],
+      ),
+    );
   }
 
   Future<void> isValidUserAndLoginError() async {

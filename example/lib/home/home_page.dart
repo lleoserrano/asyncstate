@@ -63,7 +63,7 @@ class HomePage extends StatelessWidget {
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Text('Failt to login! try again alter'),
+                        const Text('Failed to login! try again alter'),
                         Text(e.toString()),
                       ],
                     ),
@@ -101,6 +101,18 @@ class HomePage extends StatelessWidget {
               }
             },
             child: const Text('Validate user and redirect page'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await controller.loadMoreSnackBar();
+            },
+            child: const Text('LoadMore SnackBar'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await controller.loadMoreMaterialBanner();
+            },
+            child: const Text('LoadMore MaterialBanner'),
           ),
         ],
       ),

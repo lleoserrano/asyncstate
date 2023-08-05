@@ -192,5 +192,9 @@ packages:
     source: hosted
     version: "2.1.4"
 sdks:
+<<<<<<< Updated upstream
   dart: ">=2.18.0 <4.0.0"
+=======
+  dart: ">=3.0.0 <4.0.0"
+>>>>>>> Stashed changes
   flutter: ">=1.17.0"
