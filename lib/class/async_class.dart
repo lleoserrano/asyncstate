@@ -1,7 +1,4 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
+import 'dart:developer';
 
 import '../enum/enum_loader_type.dart';
 import '/exceptions/async_state_exception.dart';
@@ -53,38 +50,6 @@ class AsyncState<T> {
     }
 
     //Call both futures as the same time. the Dialog will still open until the futureFunction complete
-<<<<<<< Updated upstream
-    final futures = await Future.wait([
-      showDialog(
-        barrierDismissible: false,
-        context: context!,
-        useRootNavigator: false,
-        builder: (_) => AlertDialog(
-            content: WillPopScope(
-          child: customLoader ??
-              defaultDialog ??
-              SizedBox(
-                width: 50,
-                height: 50,
-                child: Center(
-                  child: kIsWeb
-                      ? const CircularProgressIndicator()
-                      : Platform.isIOS
-                          ? const CupertinoActivityIndicator()
-                          : const CircularProgressIndicator(),
-                ),
-              ),
-          onWillPop: () async => false,
-        )),
-      ),
-      futureFunction.whenComplete(() {
-        Navigator.of(context!).pop();
-      }),
-    ]);
-
-    debugPrint(_getStackName('Close'));
-    return futures[1] as T;
-=======
     final futures = await Future.wait(
       [
         _getLoaderType(
@@ -139,7 +104,6 @@ class AsyncState<T> {
           ),
         ),
     };
->>>>>>> Stashed changes
   }
 
   //Get the stack trace (debug only)

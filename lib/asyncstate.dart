@@ -5,6 +5,7 @@ import 'class/async_class.dart';
 import 'enum/enum_loader_type.dart';
 export 'class/async_class.dart';
 export 'mixin/asyncstate_mixin.dart';
+export 'class/async_value.dart';
 export 'enum/enum_loader_type.dart';
 export 'exceptions/async_state_exception.dart';
 

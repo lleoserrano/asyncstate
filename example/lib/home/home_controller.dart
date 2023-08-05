@@ -1,13 +1,8 @@
 import 'package:asyncstate/asyncstate.dart';
-<<<<<<< Updated upstream
-import 'package:asyncstate/class/async_value.dart';
-import 'package:example/components/my_loadig.dart';
-
-import '../model/user_model.dart';
-=======
-import 'package:example/components/my_custom_loading.dart';
 import 'package:flutter/material.dart';
->>>>>>> Stashed changes
+
+import '../components/my_loading.dart';
+import '../model/user_model.dart';
 
 class HomeController with AsyncStateMixin {
   final myUser = User().asyncValue();
@@ -41,14 +36,9 @@ class HomeController with AsyncStateMixin {
       return await Future.delayed(const Duration(seconds: 3), () {
         return true;
       }).asyncLoader(
-<<<<<<< Updated upstream
           customLoader: const MyLoading(
-        texto: 'I am a custom loader!!!!!!!\nSign in!!',
+        text: 'I am a custom loader!!!!!!!\nSign in!!',
       ));
-=======
-        customLoader: const MyCustomLoading(),
-      );
->>>>>>> Stashed changes
     } catch (e) {
       // debugPrint(e.toString());
       return false;

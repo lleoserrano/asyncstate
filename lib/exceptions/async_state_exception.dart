@@ -1,4 +1,4 @@
-class AsyncStateException with Exception {
+class AsyncStateException implements Exception {
   final String exception;
   //An exception to handle the context error, when you forget to put the observer
   AsyncStateException.errorContext(

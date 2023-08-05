@@ -27,9 +27,9 @@ class AsyncValue<T> {
   final StreamController<AsyncValueState> state;
 
   AsyncValue(
-    T initalValue,
+    T initialValue,
   )   : state = StreamController<AsyncValueState>.broadcast(),
-        value = initalValue;
+        value = initialValue;
 
   void dispose() {
     state.close();
@@ -44,17 +44,14 @@ class AsyncValue<T> {
       stream: state.stream,
       initialData: AsyncValueState.loading,
       builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          switch (snapshot.data!) {
-            case AsyncValueState.loading:
-              return loading();
-            case AsyncValueState.error:
-              return error.call(_errorMessage);
-            case AsyncValueState.success:
-              return success.call(value);
-          }
+        switch (snapshot.data!) {
+          case AsyncValueState.loading:
+            return loading();
+          case AsyncValueState.error:
+            return error.call(_errorMessage);
+          case AsyncValueState.success:
+            return success.call(value);
         }
-        return const Placeholder();
       },
     );
   }

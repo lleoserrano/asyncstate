@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 24,
           ),
           controller.myUser.build(
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
             error: (e) => Text('$e <= Este é o Erro'),
             success: (user) => Text('${user.name!} <= Este é o User'),
           ),
-          Divider(),
+          const Divider(),
           Center(
             child: ElevatedButton(
               onPressed: () async {
@@ -76,10 +76,10 @@ class HomePage extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               if (await controller.isValidUser()) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: const [
+                  children: [
                     Text('Success'),
                     Text('This is a valid user'),
                   ],

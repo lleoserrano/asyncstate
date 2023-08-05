@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class MyLoading extends StatelessWidget {
-  final String? texto;
-  const MyLoading({Key? key, this.texto}) : super(key: key);
+  final String? text;
+  const MyLoading({Key? key, this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class MyLoading extends StatelessWidget {
         Container(
           margin: const EdgeInsets.only(left: 20),
           child: Text(
-            texto ?? 'Loading content...',
+            text ?? 'Loading content...',
             style: const TextStyle(fontSize: 12),
           ),
         ),
