@@ -1,8 +1,10 @@
 import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import '../enum/enum_loader_type.dart';
+
 import '/exceptions/async_state_exception.dart';
 import '/observers/async_navigator_observer.dart';
+import '../enum/enum_loader_type.dart';
 
 /// Static class that will start the instance
 late final AsyncState asyncState;
@@ -58,7 +60,9 @@ class AsyncState<T> {
         futureFunction.whenComplete(() {
           switch (loaderType) {
             case LoaderType.alertDialog:
-              Navigator.of(context!).pop();
+              if (Navigator.canPop(context!)) {
+                Navigator.of(context!).pop();
+              }
               break;
             case LoaderType.snackBar:
               ScaffoldMessenger.of(context!).hideCurrentSnackBar();
@@ -67,7 +71,9 @@ class AsyncState<T> {
               ScaffoldMessenger.of(context!).hideCurrentMaterialBanner();
               break;
             default:
-              Navigator.of(context!).pop();
+              if (Navigator.canPop(context!)) {
+                Navigator.of(context!).pop();
+              }
           }
         }),
       ],

@@ -1,3 +1,6 @@
+## 2.0.1
+- Improve the pop in the dialog and scaffold to prevent remove more than the navigation stack
+
 ## 2.0.0
 
 - ##### Break Change
