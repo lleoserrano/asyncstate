@@ -8,6 +8,7 @@ export 'mixin/asyncstate_mixin.dart';
 export 'class/async_value.dart';
 export 'enum/enum_loader_type.dart';
 export 'exceptions/async_state_exception.dart';
+export 'class/async_loader_handler.dart';
 
 extension AsyncLoader<T> on Future<T> {
   //Extension on future to use in async methods

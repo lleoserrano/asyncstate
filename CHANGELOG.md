@@ -1,3 +1,7 @@
+## 2.0.2
+- Implemented the  "AsyncLoaderHandler", this class allows you start the loader and close when necessary.
+- Thanks @rodrigorahman for the idea and the code model.
+
 ## 2.0.1
 - Improve the pop in the dialog and scaffold to prevent remove more than the navigation stack. 
 - Thanks to @brasizza

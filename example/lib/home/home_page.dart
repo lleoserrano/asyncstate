@@ -40,6 +40,12 @@ class HomePage extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () async {
+              await controller.loginWithAsyncLoaderHandler();
+            },
+            child: const Text('Login with AsyncLoaderHandler'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
               try {
                 await controller.loginError();
               } catch (e) {
