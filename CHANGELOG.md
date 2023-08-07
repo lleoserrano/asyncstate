@@ -1,5 +1,7 @@
 ## 2.0.1
-- Improve the pop in the dialog and scaffold to prevent remove more than the navigation stack
+- Improve the pop in the dialog and scaffold to prevent remove more than the navigation stack. 
+- Thanks to @brasizza
+- Fixed named parameter in builder.
 
 ## 2.0.0
 
