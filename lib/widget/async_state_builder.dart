@@ -6,7 +6,7 @@ import 'loader/default_loader.dart';
 
 class AsyncStateBuilder extends StatefulWidget {
   final Widget customLoader;
-  final Widget Function(AsyncNavigatorObserver) builder;
+  final Widget Function(AsyncNavigatorObserver asyncNavigatorObserver) builder;
 
   const AsyncStateBuilder({
     super.key,
