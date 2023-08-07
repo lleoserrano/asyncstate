@@ -2,34 +2,8 @@ import 'package:asyncstate/asyncstate.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_loading.dart';
-import '../model/user_model.dart';
 
 class HomeController with AsyncStateMixin {
-  final myUser = User().asyncValue();
-  final userNull = AsyncValue<User?>(null);
-
-  Future<void> userSuccess() async {
-    myUser.setLoading();
-    Future.delayed(
-      const Duration(seconds: 3),
-      () {
-        myUser.setSuccess(
-          User(name: 'Dash Flutter bird'),
-        );
-      },
-    );
-  }
-
-  Future<void> userError() async {
-    myUser.setLoading();
-    Future.delayed(
-      const Duration(seconds: 3),
-      () {
-        myUser.setError('Error on get User');
-      },
-    );
-  }
-
   ///Method that simulates a login
   Future<bool> loginSuccess() async {
     try {
