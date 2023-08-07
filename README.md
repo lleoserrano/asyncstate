@@ -36,43 +36,80 @@
  [-] **Linux** (not tested yet)<br> 
  [-] **Windows** (not tested yet)<br>-->
 
-# Usage
+# Usage 
+ <body>
+  1 - Wrap your MaterialApp Or CurpertinoApp with the AsyncStateBuilder.<br />
+  2 - Get the "navigatorObserver" from the builder function and add it to your component's "navigatorObservers".<br />
+  3 - If you want, you can add a widget to "CustomLoader".<br />
+ </body>
 
-`AsyncState`:
+--------------
+`Code example:`
 ```dart
-void main() {
-  AsyncState.setLoaderPersonalized(
-    defaultLoaderWidget: const MyLoading(),
-    /// Here you can customize your default loading that will show every transaction
-    /// Leave it and it will show a simple CircularProgress indicator
-  );
-  runApp(const MyApp());
-}      
-```
-`Define your Widget with Loading default.`
-
--------------------------------------------------------------------------------------
-```dart
- class MyApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      themeMode: ThemeMode.dark,
-      navigatorObservers: [
-        AsyncState.observer //This observer is important to get the context yo use the dialogs
-      ], 
-      theme: ThemeData.dark(),
-      home: HomePage(),
+    /// Here you need to wrap your MaterialApp with the AsyncStateBuilder
+    return AsyncStateBuilder(
+      /// Here you can customize your default loading that will show every transaction
+      /// Leave it and it will show a simple CircularProgress.adaptive indicator
+      customLoader: const MyLoading(),
+
+      builder: (navigatorObserver) => MaterialApp(
+        themeMode: ThemeMode.dark,
+
+        /// Here you need to pass the navigatorObserver to the MaterialApp
+        navigatorObservers: [navigatorObserver],
+        home: HomePage(),
+      ),
     );
   }
-}
+}   
 ```
-`Add "AsyncState.observer" on MaterialApp.`
 
-# Using as Mixin in your controller (callAsyncLoader())
+-------------------------------------------------------------------------------------
+
+## The asyncronous loader call methods allow you to define a LoaderType, and pass the widget to be displayed.
+```dart
+  Future<void> loadMoreSnackBar() async {
+    await Future.delayed(const Duration(seconds: 10)).asyncLoader(
+      loaderType: LoaderType.snackBar,
+      customLoader: const SnackBar(
+        content: Text('Loading more...'),
+        duration: Duration(seconds: 90),
+      ),
+    );
+  }
+
+  Future<void> loadMoreMaterialBanner() async {
+    await Future.delayed(const Duration(seconds: 10)).asyncLoader(
+      loaderType: LoaderType.materialBanner,
+      customLoader: const MaterialBanner(
+        content: Text('Loading more...'),
+        actions: [SizedBox.shrink()],
+      ),
+    );
+  }
+```
+
+-------------------------------------------------------------------------------------
+
+# Mixin AsyncStateMixin
+
+### `Methods`
+
+<body>
+  <b>callAsyncLoader</b> - Automatically call your loader during async calls.<br />
+  <b>showMaterialBanner</b> - Allow you call the MaterialBanner on ScaffoldMessenger.<br />
+  <b>showSnackBar</b> - Allow you call the SnackBar on ScaffoldMessenger.<br />
+  <b>showDialog</b> - Allow you call the Dialog on showDialog.<br />
+  <b>showBottomSheet</b> - Allow you call the BottomSheet on showBottomSheet.<br />
+ </body>
+
+------------------
+
 ```dart
 class HomeController with AsyncStateMixin {
   
@@ -86,10 +123,27 @@ class HomeController with AsyncStateMixin {
       ),
     );
   }
+
+Future<void> loginError() async {
+    try {
+      await _fakeError().asyncLoader();
+    } catch (e) {
+      showMaterialBanner(
+        materialBanner: MaterialBanner(
+          actions: const [
+            SizedBox.shrink(),
+          ],
+          content: Text(
+            e.toString(),
+          ),
+        ),
+      );
+    }
+  }
 }
 ```
 
-# Use as an extension anywhere (.asyncLoader())
+# Extension anywhere (.asyncLoader())
 ```dart
 class HomeController{
 
@@ -106,26 +160,26 @@ class HomeController{
     }
   }
 }
-  ```
+```
 
   # Call in your View like this
   ```dart
   ElevatedButton(
-              onPressed: () async {
-                if (await controller.login()) { 
-                  ///Use a Navigator to go to another page if your login is true
-                  ///You don't need to care about start of finish the loading, just what to do after or before!
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SecondPage(
-                              controller: controller,
-                            )),
-                  );
-                }
-              },
-              child: const Text('Sign in!'),
-            )
+    onPressed: () async {
+      if (await controller.login()) {
+    ///Use a Navigator to go to another page if your login is true
+   ///You don't need to care about start of finish the loading, just what to do after or before!
+       Navigator.push(
+           context,
+             MaterialPageRoute(
+                builder: (context) => SecondPage(
+                   controller: controller,
+          )),
+      );
+   }
+},
+   child: const Text('Sign in!'),
+)
   ```
 
 
