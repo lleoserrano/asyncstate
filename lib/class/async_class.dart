@@ -1,9 +1,8 @@
 import 'dart:developer';
-
+import 'package:flutter/material.dart';
 import '../enum/enum_loader_type.dart';
 import '/exceptions/async_state_exception.dart';
 import '/observers/async_navigator_observer.dart';
-import 'package:flutter/material.dart';
 
 /// Static class that will start the instance
 late final AsyncState asyncState;
@@ -41,10 +40,10 @@ class AsyncState<T> {
     Future<T> futureFunction,
     LoaderType? loaderType,
   ) async {
-    debugPrint(_getStackName('Call'));
+    log(_getStackName('Call'));
     if (context == null) {
-      debugPrintStack(
-        label: AsyncStateException.errorContext().exception,
+      log(
+        AsyncStateException.errorContext().exception,
       );
       throw AsyncStateException.errorContext();
     }

@@ -8,8 +8,10 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(
             height: 24,
@@ -28,7 +30,12 @@ class HomePage extends StatelessWidget {
                   );
                 }
               },
-              child: const Text('Sign in with redirect page'),
+              child: const Column(
+                children: [
+                  Text('Sign in with redirect page'),
+                  Text('With a custom loader'),
+                ],
+              ),
             ),
           ),
           ElevatedButton(

@@ -7,14 +7,13 @@ class HomeController with AsyncStateMixin {
   ///Method that simulates a login
   Future<bool> loginSuccess() async {
     try {
-      return await Future.delayed(const Duration(seconds: 3), () {
+      return await Future.delayed(const Duration(seconds: 5), () {
         return true;
       }).asyncLoader(
           customLoader: const MyLoading(
         text: 'I am a custom loader!!!!!!!\nSign in!!',
       ));
     } catch (e) {
-      // debugPrint(e.toString());
       return false;
     }
   }
