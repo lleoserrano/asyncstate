@@ -84,7 +84,6 @@ class HomeController with AsyncStateMixin {
     });
   }
 
-  /// Use 2 methods valid and login
   Future<void> loadMoreSnackBar() async {
     await Future.delayed(const Duration(seconds: 10)).asyncLoader(
       loaderType: LoaderType.snackBar,
@@ -95,7 +94,6 @@ class HomeController with AsyncStateMixin {
     );
   }
 
-  /// Use 2 methods valid and login
   Future<void> loadMoreMaterialBanner() async {
     await Future.delayed(const Duration(seconds: 10)).asyncLoader(
       loaderType: LoaderType.materialBanner,
