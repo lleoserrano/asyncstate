@@ -6,20 +6,26 @@ class MyLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        const FlutterLogo(
-          size: 40,
-        ),
-        Container(
-          margin: const EdgeInsets.only(left: 20),
-          child: Text(
-            text ?? 'Loading content...',
-            style: const TextStyle(fontSize: 12),
+    return Center(
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const CircularProgressIndicator.adaptive(),
+              const SizedBox(
+                height: 16,
+              ),
+              Text(
+                text ?? 'Loading content...',
+                style: const TextStyle(fontSize: 12),
+              ),
+            ],
           ),
         ),
-      ],
+      ),
     );
   }
 }

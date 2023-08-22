@@ -99,6 +99,18 @@ class HomePage extends StatelessWidget {
             },
             child: const Text('LoadMore MaterialBanner'),
           ),
+          ElevatedButton(
+            onPressed: () async {
+              await controller.futureWithException();
+            },
+            child: const Text('Future with Exception'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              await controller.futureWithoutException();
+            },
+            child: const Text('Future without Exception'),
+          ),
         ],
       ),
     );

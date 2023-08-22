@@ -1,3 +1,5 @@
+import 'package:asyncstate/class/async_loader_handler.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../class/async_class.dart';
@@ -24,6 +26,13 @@ class _AsyncStateBuilderState extends State<AsyncStateBuilder> {
     asyncState = AsyncState(
       defaultDialog: widget.customLoader,
     );
+    PlatformDispatcher.instance.onError = (error, stack) {
+      for (var completer in listOfCompleters) {
+        completer.complete('AsyncLoaderHandler');
+      }
+      listOfCompleters.clear();
+      return true;
+    };
     super.initState();
   }
 

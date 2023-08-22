@@ -1,4 +1,5 @@
 import 'package:asyncstate/asyncstate.dart';
+import 'package:asyncstate/class/async_loader_handler.dart';
 import 'package:flutter/material.dart';
 
 import '../components/my_loading.dart';
@@ -81,6 +82,28 @@ class HomeController with AsyncStateMixin {
     return await isValidUser().then((value) async {
       await loginError();
     });
+  }
+
+  Future<void> futureWithException() async {
+    final loader = AsyncLoaderHandler.start();
+    await _futureThrowError();
+    loader.close();
+  }
+
+  Future<void> _futureThrowError() async {
+    await Future.delayed(const Duration(seconds: 2), () {
+      throw Exception('Error');
+    });
+  }
+
+  Future<void> futureWithoutException() async {
+    final loader = AsyncLoaderHandler.start();
+    await _futureSuccess();
+    loader.close();
+  }
+
+  Future<void> _futureSuccess() async {
+    await Future.delayed(const Duration(seconds: 2), () {});
   }
 
   Future goBack(Function callback) async {
