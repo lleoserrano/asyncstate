@@ -2,7 +2,7 @@ name: asyncstate
 description: This package will help you to call a loading in your async methods very easily, and you don't need to worried when it's is starting or finishing.
 homepage: https://github.com/DevLSerrano/asyncstate
 repository: https://github.com/DevLSerrano/asyncstate/
-version: 2.0.2
+version: 2.0.3
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -15,6 +15,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.2
 
 flutter:
