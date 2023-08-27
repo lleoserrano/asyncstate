@@ -1,3 +1,13 @@
+## 2.0.3
+- BREAKCHANGE - Removed AsyncStateMixin.
+- Fixed “AsyncLoaderHandler”, now the loader doesn't crash when an “exception” comes up, we use “PlatformDispatcher.instance.onError” to close automatically in case of any “exception”. Thanks @rodrigorahman for the idea.
+- Fixed “asyncState” extension.
+- Implemented “AsyncLoaderHandler” extension per context.
+- Implemented “AsyncStateExceptionHandler” for handling “exceptions” per route or globally.
+- You can now enable or disable the “log”.
+- Updated the example.
+- Updated README - Check this for updates.
+
 ## 2.0.2
 - Implemented the  "AsyncLoaderHandler", this class allows you start the loader and close when necessary.
 - Thanks @rodrigorahman for the idea and the code model.
