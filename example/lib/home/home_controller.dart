@@ -11,6 +11,11 @@ class HomeController {
     debugPrint('Login Success result: $result');
   }
 
+  Future<String> _functionSuccess() async {
+    await Future.delayed(const Duration(seconds: 2));
+    return 'Success';
+  }
+
   Future<void> loginFailure() => _functionFailure().asyncLoader();
 
   Future<void> loginPersonalizedLoader() async =>
@@ -28,11 +33,6 @@ class HomeController {
   Future<void> _functionFailure() async {
     await Future.delayed(const Duration(seconds: 2));
     throw HomeExceptionModel('Someone happens!');
-  }
-
-  Future<String> _functionSuccess() async {
-    await Future.delayed(const Duration(seconds: 2));
-    return 'Success';
   }
 
   Future<void> loginSuccessHandler() async {

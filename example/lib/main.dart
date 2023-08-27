@@ -22,6 +22,9 @@ class MyApp extends StatelessWidget {
       /// Leave it and it will show a simple CircularProgress.adaptive indicator
       customLoader: const GlobalLoading(),
 
+      /// Here you can enable or disable the log
+      enableLog: true,
+
       ///You can customize your exceptions handlers for route
       exceptionHandlers: {
         '_': GlobalExceptionHandler(),
