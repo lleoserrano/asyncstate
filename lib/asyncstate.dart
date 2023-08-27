@@ -8,6 +8,7 @@ export 'mixin/asyncstate_mixin.dart';
 export 'class/async_value.dart';
 export 'enum/enum_loader_type.dart';
 export 'exceptions/async_state_exception.dart';
+export 'class/async_loader_handler.dart';
 
 AsyncLoaderHandler? extensionHandler;
 
