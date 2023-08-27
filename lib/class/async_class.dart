@@ -12,6 +12,8 @@ late final AsyncState asyncState;
 class AsyncState<T> {
   Widget defaultDialog;
   BuildContext? context;
+  final bool enableLog;
+  String currentRouteName = '';
   final _observer = AsyncNavigatorObserver();
 
   set setContext(BuildContext ctx) => context = ctx;
@@ -22,6 +24,7 @@ class AsyncState<T> {
   //Constructor
   AsyncState({
     required this.defaultDialog,
+    this.enableLog = true,
   });
 
   Future<T> callAsyncLoader(
@@ -30,6 +33,13 @@ class AsyncState<T> {
     LoaderType? loaderType,
   }) async {
     try {
+      if (loaderType == LoaderType.snackBar && customLoader is! SnackBar) {
+        throw AsyncStateException.errorCustomLoaderSnackbar();
+      }
+      if (loaderType == LoaderType.materialBanner &&
+          customLoader.runtimeType is! MaterialBanner) {
+        throw AsyncStateException.errorCustomLoaderMaterialBanner();
+      }
       return await _callDialog(customLoader, futureFunction, loaderType);
     } catch (e) {
       rethrow;
@@ -42,7 +52,9 @@ class AsyncState<T> {
     Future<T> futureFunction,
     LoaderType? loaderType,
   ) async {
-    log(_getStackName('Call'));
+    if (enableLog) {
+      log('AsyncLoader - Opened');
+    }
     if (context == null) {
       log(
         AsyncStateException.errorContext().exception,
@@ -78,8 +90,9 @@ class AsyncState<T> {
         }),
       ],
     );
-
-    log(_getStackName('Close'));
+    if (enableLog) {
+      log('AsyncLoader - Closed');
+    }
     return futures[1];
   }
 
@@ -112,7 +125,7 @@ class AsyncState<T> {
   }
 
   //Get the stack trace (debug only)
-  String _getStackName(String method) {
+  /* String _getStackName(String method) {
     final value = StackTrace.current.toString().split('\n');
     value.removeWhere((element) => !element.startsWith('#4'));
 
@@ -120,5 +133,5 @@ class AsyncState<T> {
       return '';
     }
     return '$method - ' + value[0].substring(2).replaceAll(' ', '');
-  }
+  } */
 }

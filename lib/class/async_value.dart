@@ -10,7 +10,7 @@ extension Helper<T> on T {
 
 extension AsyncValueStateExtension<T> on AsyncValue<T> {
   void setLoading() => state.add(AsyncValueState.loading);
-  void setError(String errorMessage) {
+  void setError(String? errorMessage) {
     _errorMessage = errorMessage;
     state.add(AsyncValueState.error);
   }

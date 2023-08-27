@@ -1,112 +1,94 @@
+import 'package:asyncstate/asyncstate.dart';
 import 'package:example/home/home_controller.dart';
-import 'package:example/home/second_page.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({Key? key}) : super(key: key);
-  final HomeController controller = HomeController();
+  const HomePage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final controller = HomeController();
+
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 24,
+          ElevatedButton(
+            onPressed: () async {
+              await controller.loginPersonalizedLoader();
+            },
+            child: const Text('Login Success Personalized'),
           ),
           const Divider(),
-          Center(
-            child: ElevatedButton(
-              onPressed: () async {
-                if (await controller.loginSuccess()) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SecondPage(
-                              controller: controller,
-                            )),
-                  );
-                }
-              },
-              child: const Column(
-                children: [
-                  Text('Sign in with redirect page'),
-                  Text('With a custom loader'),
-                ],
-              ),
+          ElevatedButton(
+            onPressed: () async {
+              await controller.loginSuccess();
+            },
+            child: const Text('Login Success'),
+          ),
+          const Divider(),
+          ElevatedButton(
+            onPressed: () async {
+              await controller.loginSuccessHandler();
+            },
+            child: const Text('Login Success Handler'),
+          ),
+          const Divider(),
+          ElevatedButton(
+            onPressed: () async {
+              await controller.loginFailure();
+            },
+            child: const Text('Login Error'),
+          ),
+          const Divider(),
+          ElevatedButton(
+            onPressed: () async {
+              await controller.loginFailureHandler();
+            },
+            child: const Text('Login Error Handler'),
+          ),
+          const Divider(),
+          ElevatedButton(
+            onPressed: () async {
+              await controller.loadMorePersonalized();
+            },
+            child: const Text('Load More Personalized'),
+          ),
+          const Divider(),
+          ElevatedButton(
+            onPressed: () async {
+              context.startAsyncStateLoader();
+              await Future.delayed(const Duration(seconds: 2));
+              context.closeAsyncStateLoader();
+            },
+            child: const Text('Loader by context'),
+          ),
+          const Divider(),
+          ElevatedButton(
+            onPressed: () async {
+              context.startAsyncStateLoader();
+              await errorCall();
+              context.closeAsyncStateLoader();
+            },
+            child: const Text('Loader Error by context'),
+          ),
+          const Divider(),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueGrey[900],
             ),
-          ),
-          ElevatedButton(
             onPressed: () async {
-              await controller.loginWithAsyncLoaderHandler();
+              Navigator.of(context).pushNamed('/Home/Detail');
             },
-            child: const Text('Login with AsyncLoaderHandler'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              try {
-                await controller.loginError();
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('Failed to login! try again alter'),
-                        Text(e.toString()),
-                      ],
-                    ),
-                  ),
-                );
-              }
-            },
-            child: const Text('Login fail test'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              if (await controller.isValidUser()) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text('Success'),
-                    Text('This is a valid user'),
-                  ],
-                )));
-              }
-            },
-            child: const Text('Success sign in'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              if (await controller.isValidUserAndLogin()) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => SecondPage(
-                            controller: controller,
-                          )),
-                );
-              }
-            },
-            child: const Text('Validate user and redirect page'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await controller.loadMoreSnackBar();
-            },
-            child: const Text('LoadMore SnackBar'),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              await controller.loadMoreMaterialBanner();
-            },
-            child: const Text('LoadMore MaterialBanner'),
+            child: const Text('Detail Page'),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> errorCall() async {
+    await Future.delayed(const Duration(seconds: 2));
+    throw Exception('Error');
   }
 }
