@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:asyncstate/asyncstate.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-List<Completer<String>> listOfCompleters = [];
+var listOfASyncLoaderHandlers = <AsyncLoaderHandler>[];
 
 class AsyncLoaderHandler {
   late final Completer<String> _completer;
@@ -16,7 +15,7 @@ class AsyncLoaderHandler {
     this.loaderType = LoaderType.alertDialog,
   }) {
     _completer = Completer<String>();
-    listOfCompleters.add(_completer);
+    listOfASyncLoaderHandlers.add(this);
   }
 
   factory AsyncLoaderHandler.start({
@@ -25,11 +24,15 @@ class AsyncLoaderHandler {
   }) =>
       AsyncLoaderHandler(
         customLoader: customLoader,
-        loaderType: LoaderType.alertDialog,
+        loaderType: loaderType,
       )..start();
 
   void start() {
-    _completer.future.asyncLoader(
+    listOfASyncLoaderHandlers.removeWhere(
+      (element) => element._completer.isCompleted,
+    );
+    asyncState.callAsyncLoader(
+      _completer.future,
       customLoader: customLoader,
       loaderType: loaderType,
     );
@@ -39,6 +42,5 @@ class AsyncLoaderHandler {
     if (!_completer.isCompleted) {
       _completer.complete('AsyncLoaderHandler');
     }
-    listOfCompleters.remove(_completer);
   }
 }

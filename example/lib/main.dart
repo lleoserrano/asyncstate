@@ -1,7 +1,10 @@
 import 'package:asyncstate/widget/async_state_builder.dart';
+import 'package:example/components/global_loading.dart';
+import 'package:example/detail/detail_exception_handler.dart';
+import 'package:example/detail/detail_page.dart';
+import 'package:example/exceptions/global_exception_handler.dart';
 import 'package:flutter/material.dart';
 
-import 'components/my_loading.dart';
 import 'home/home_page.dart';
 
 void main() {
@@ -17,14 +20,25 @@ class MyApp extends StatelessWidget {
     return AsyncStateBuilder(
       /// Here you can customize your default loading that will show every transaction
       /// Leave it and it will show a simple CircularProgress.adaptive indicator
-      customLoader: const MyLoading(),
+      customLoader: const GlobalLoading(),
 
+      ///You can customize your exceptions handlers for route
+      exceptionHandlers: {
+        '_': GlobalExceptionHandler(),
+        '/Home/Detail': DetailExceptionHandler(),
+      },
       builder: (navigatorObserver) => MaterialApp(
         themeMode: ThemeMode.dark,
+        theme: ThemeData.dark(),
 
         /// Here you need to pass the navigatorObserver to the MaterialApp
         navigatorObservers: [navigatorObserver],
-        home: HomePage(),
+        initialRoute: '/Home',
+        routes: {
+          '/Home': (context) => const HomePage(),
+          '/Home/Detail': (context) => const DetailPage(),
+          '/Home/Detail/SecondDetail': (context) => const SecondDetailPage(),
+        },
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+/* import 'package:flutter/material.dart';
 import '../asyncstate.dart';
 
 /// Just a mixing class to call the async loader
@@ -74,3 +74,4 @@ mixin AsyncStateMixin<T> {
     );
   }
 }
+ */

@@ -1,114 +1,50 @@
 import 'package:asyncstate/asyncstate.dart';
 import 'package:asyncstate/class/async_loader_handler.dart';
+import 'package:example/components/global_custom_loader_snackbar.dart';
+import 'package:example/components/global_custom_loading.dart';
+import 'package:example/home/home_exception_model.dart';
 import 'package:flutter/material.dart';
 
-import '../components/my_loading.dart';
-
-class HomeController with AsyncStateMixin {
-  ///Method that simulates a login
-  Future<bool> loginSuccess() async {
-    try {
-      return await Future.delayed(const Duration(seconds: 5), () {
-        return true;
-      }).asyncLoader(
-          customLoader: const MyLoading(
-        text: 'I am a custom loader!!!!!!!\nSign in!!',
-      ));
-    } catch (e) {
-      return false;
-    }
+class HomeController {
+  Future<void> loginSuccess() async {
+    final result = await _functionSuccess().asyncLoader();
+    debugPrint('Login Success result: $result');
   }
 
-  ///Method that simulates a login error
-  Future<void> loginError() async {
-    try {
-      await _fakeError().asyncLoader();
-    } catch (e) {
-      showMaterialBanner(
-        materialBanner: MaterialBanner(
-          actions: const [
-            SizedBox.shrink(),
-          ],
-          content: Text(
-            e.toString(),
-          ),
-        ),
+  Future<void> loginFailure() => _functionFailure().asyncLoader();
+
+  Future<void> loginPersonalizedLoader() async =>
+      await _functionSuccess().asyncLoader(
+        customLoader: const GlobalCustomLoading(),
       );
-    }
-  }
 
-  Future<void> _fakeError() async {
-    await Future.delayed(const Duration(seconds: 3), () {
-      throw ('Check your user or passowrd and try again!');
-    });
-  }
-
-  ///Check if the user is valid
-  Future<bool> isValidUser() async {
-    return await Future.delayed(const Duration(seconds: 3), () {
-      return true;
-    }).asyncLoader();
-  }
-
-  /// Use 2 methods valid and login
-  Future<bool> isValidUserAndLogin() async {
-    ///In this case we don't need to put ".asyncLoader()" because the main functions "isValidUser" and "loginSuccess" already have.
-    return await isValidUser().then((value) async {
-      return await loginSuccess();
-    });
-  }
-
-  Future<void> loadMoreSnackBar() async {
-    await Future.delayed(const Duration(seconds: 10)).asyncLoader(
+  Future<void> loadMorePersonalized() async {
+    await _functionFailure().asyncLoader(
+      customLoader: HomeCustomLoaderSnackbar(),
       loaderType: LoaderType.snackBar,
-      customLoader: const SnackBar(
-        content: Text('Loading more...'),
-        duration: Duration(seconds: 90),
-      ),
     );
   }
 
-  Future<void> loadMoreMaterialBanner() async {
-    await Future.delayed(const Duration(seconds: 10)).asyncLoader(
-      loaderType: LoaderType.materialBanner,
-      customLoader: const MaterialBanner(
-        content: Text('Loading more...'),
-        actions: [SizedBox.shrink()],
-      ),
-    );
+  Future<void> _functionFailure() async {
+    await Future.delayed(const Duration(seconds: 2));
+    throw HomeExceptionModel('Someone happens!');
   }
 
-  Future<void> isValidUserAndLoginError() async {
-    return await isValidUser().then((value) async {
-      await loginError();
-    });
+  Future<String> _functionSuccess() async {
+    await Future.delayed(const Duration(seconds: 2));
+    return 'Success';
   }
 
-  Future<void> futureWithException() async {
-    final loader = AsyncLoaderHandler.start();
-    await _futureThrowError();
-    loader.close();
+  Future<void> loginSuccessHandler() async {
+    final handler = AsyncLoaderHandler.start();
+    final result = await _functionSuccess().asyncLoader();
+    debugPrint('Login Success result: $result');
+    handler.close();
   }
 
-  Future<void> _futureThrowError() async {
-    await Future.delayed(const Duration(seconds: 2), () {
-      throw Exception('Error');
-    });
-  }
-
-  Future<void> futureWithoutException() async {
-    final loader = AsyncLoaderHandler.start();
-    await _futureSuccess();
-    loader.close();
-  }
-
-  Future<void> _futureSuccess() async {
-    await Future.delayed(const Duration(seconds: 2), () {});
-  }
-
-  Future goBack(Function callback) async {
-    return await Future.delayed(const Duration(seconds: 3), () {
-      callback();
-    });
+  Future<void> loginFailureHandler() async {
+    final handler = AsyncLoaderHandler.start();
+    await _functionFailure().asyncLoader();
+    handler.close();
   }
 }

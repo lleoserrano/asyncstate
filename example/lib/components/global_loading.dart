@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class MyCustomLoading extends StatelessWidget {
-  const MyCustomLoading({Key? key}) : super(key: key);
+class GlobalLoading extends StatelessWidget {
+  const GlobalLoading({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const FlutterLogo(
-      size: 60,
+      style: FlutterLogoStyle.stacked,
     );
   }
 }
