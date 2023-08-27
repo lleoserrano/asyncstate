@@ -40,7 +40,7 @@
  <body>
   1 - Wrap your MaterialApp Or CurpertinoApp with the AsyncStateBuilder.<br />
   2 - Get the "navigatorObserver" from the builder function and add it to your component's "navigatorObservers".<br />
-  3 - If you want, you can add a widget to "CustomLoader".<br />
+  3 - If you want, you can add a widget to "CustomLoader", exceptionHandlers or disable the log.<br /> 
  </body>
 
 --------------
@@ -55,134 +55,112 @@ class MyApp extends StatelessWidget {
     return AsyncStateBuilder(
       /// Here you can customize your default loading that will show every transaction
       /// Leave it and it will show a simple CircularProgress.adaptive indicator
-      customLoader: const MyLoading(),
+      customLoader: const GlobalLoading(),
 
+      /// Here you can enable or disable the log
+      enableLog: true,
+
+      ///You can customize your exceptions handlers for route
+      exceptionHandlers: {
+        '_': GlobalExceptionHandler(),
+        '/Home/Detail': DetailExceptionHandler(),
+      },
       builder: (navigatorObserver) => MaterialApp(
         themeMode: ThemeMode.dark,
+        theme: ThemeData.dark(),
 
         /// Here you need to pass the navigatorObserver to the MaterialApp
         navigatorObservers: [navigatorObserver],
-        home: HomePage(),
-      ),
-    );
-  }
-}   
-```
-
--------------------------------------------------------------------------------------
-
-## The asyncronous loader call methods allow you to define a LoaderType, and pass the widget to be displayed.
-```dart
-  Future<void> loadMoreSnackBar() async {
-    await Future.delayed(const Duration(seconds: 10)).asyncLoader(
-      loaderType: LoaderType.snackBar,
-      customLoader: const SnackBar(
-        content: Text('Loading more...'),
-        duration: Duration(seconds: 90),
-      ),
-    );
-  }
-
-  Future<void> loadMoreMaterialBanner() async {
-    await Future.delayed(const Duration(seconds: 10)).asyncLoader(
-      loaderType: LoaderType.materialBanner,
-      customLoader: const MaterialBanner(
-        content: Text('Loading more...'),
-        actions: [SizedBox.shrink()],
-      ),
-    );
-  }
-```
-
--------------------------------------------------------------------------------------
-
-# Mixin AsyncStateMixin
-
-### `Methods`
-
-<body>
-  <b>callAsyncLoader</b> - Automatically call your loader during async calls.<br />
-  <b>showMaterialBanner</b> - Allow you call the MaterialBanner on ScaffoldMessenger.<br />
-  <b>showSnackBar</b> - Allow you call the SnackBar on ScaffoldMessenger.<br />
-  <b>showDialog</b> - Allow you call the Dialog on showDialog.<br />
-  <b>showBottomSheet</b> - Allow you call the BottomSheet on showBottomSheet.<br />
- </body>
-
-------------------
-
-```dart
-class HomeController with AsyncStateMixin {
-  
-  Future goBack(Function callback) async {
-    return await callAsyncLoader(
-      Future.delayed(
-        const Duration(seconds: 3),
-        () {
-          callback();
+        initialRoute: '/Home',
+        routes: {
+          '/Home': (context) => const HomePage(),
+          '/Home/Detail': (context) => const DetailPage(),
+          '/Home/Detail/SecondDetail': (context) => const SecondDetailPage(),
         },
       ),
     );
   }
-
-Future<void> loginError() async {
-    try {
-      await _fakeError().asyncLoader();
-    } catch (e) {
-      showMaterialBanner(
-        materialBanner: MaterialBanner(
-          actions: const [
-            SizedBox.shrink(),
-          ],
-          content: Text(
-            e.toString(),
-          ),
-        ),
-      );
-    }
-  }
-}
+} 
 ```
 
-# Extension anywhere (.asyncLoader())
+-------------------------------------------------------------------------------------
+# Attention
+### All methods allow you to customize the “loader”, when you change the "enum LoaderType", you need to ensure that the "customLoader" is already a widget of the same type.
+-------------------------------------------------------------------------------------
+# Method - (Extension) asyncState
+###  Use the “asyncState” extension in asynchronous calls, you won't have to worry about opening or closing the “loader”.
 ```dart
-class HomeController{
+ Future<void> loginSuccess() async {
+    final result = await _functionSuccess().asyncLoader();
+    debugPrint('Login Success result: $result');
+  }
 
-   Future<bool> login() async {
-    try {
-      return await Future.delayed(const Duration(seconds: 3), () {
-        return true;
-      }).asyncLoader(
-          customLoader: const MyCustomLoadingWidget(
-        text: 'Sign in! Hold on!!!!',
-      ));
-    } catch (e) {
-      return false;
+///Personalized
+Future<void> loadMorePersonalized() async {
+    await _functionFailure().asyncLoader(
+      customLoader: HomeCustomLoaderSnackbar(),
+      loaderType: LoaderType.snackBar,
+    );
+  }
+```
+-------------------------------------------------------------------------------------
+# Method - (Class OR Context Extension) AsyncLoaderHandler
+### The "AsyncLoaderHandler" method, allows you to have control over the open loader. Don't worry about “exceptions”, "asyncState" will close the loader if an “exception” is raised before you call “close”.
+```dart
+ Future<void> loginSuccessHandler() async {
+    final handler = AsyncLoaderHandler.start();
+    final result = await _functionSuccess().asyncLoader();
+    debugPrint('Login Success result: $result');
+    handler.close();
+  }
+
+///OR On View
+ ElevatedButton(
+  onPressed: () async {
+    context.startAsyncStateLoader();
+    await errorCall();
+    context.closeAsyncStateLoader();
+  },
+  child: const Text('Loader Error by context'),
+),
+```
+-------------------------------------------------------------------------------------
+# Method - (Interface Class) AsyncStateExceptionHandler
+### You can create a class that extends "AsyncStateExceptionHandler", with it, you can handle “exceptions” automatically and per route.
+#### It is necessary to check the "exception.runtimeType", or it will execute the action in any “exception”.
+```dart
+class DetailExceptionHandler implements AsyncStateExceptionHandler {
+  @override
+  void onException(
+    Object exception,
+    StackTrace stackTrace,
+    BuildContext context,
+  ) {
+    switch (exception.runtimeType) {
+      case DetailException:
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              exception.toString(),
+            ),
+          ),
+        );
+      case _:
+        log(exception.toString());
+        break;
     }
   }
 }
 ```
-
-  # Call in your View like this
-  ```dart
-  ElevatedButton(
-    onPressed: () async {
-      if (await controller.login()) {
-    ///Use a Navigator to go to another page if your login is true
-   ///You don't need to care about start of finish the loading, just what to do after or before!
-       Navigator.push(
-           context,
-             MaterialPageRoute(
-                builder: (context) => SecondPage(
-                   controller: controller,
-          )),
-      );
-   }
+### On Main
+#### In “main”, you can define a specific “AsyncStateExceptionHandler” for each route. The “_” is global, it will be used if the current route does not have a unique “AsyncStateExceptionHandler”.
+```dart
+ ///You can customize your exceptions handlers for route
+exceptionHandlers: {
+  '_': GlobalExceptionHandler(),
+  '/Home/Detail': DetailExceptionHandler(),
 },
-   child: const Text('Sign in!'),
-)
-  ```
-
-
+```
 
 # Bugs or Requests
 
