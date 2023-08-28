@@ -1,4 +1,4 @@
-import 'package:asyncstate/widget/async_state_builder.dart';
+import 'package:asyncstate/asyncstate.dart';
 import 'package:example/components/global_loading.dart';
 import 'package:example/detail/detail_exception_handler.dart';
 import 'package:example/detail/detail_page.dart';

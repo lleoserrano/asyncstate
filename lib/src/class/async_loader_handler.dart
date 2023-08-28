@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:asyncstate/asyncstate.dart';
+import 'package:asyncstate/src/src.dart';
 import 'package:flutter/material.dart';
 
 var listOfASyncLoaderHandlers = <AsyncLoaderHandler>[];

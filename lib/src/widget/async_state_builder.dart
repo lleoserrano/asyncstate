@@ -1,11 +1,7 @@
-import 'package:asyncstate/class/async_loader_handler.dart';
-import 'package:asyncstate/class/async_state_exception_handler.dart';
+import 'package:asyncstate/src/src.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
-import '../class/async_class.dart';
-import '../observers/async_navigator_observer.dart';
-import 'loader/default_loader.dart';
 
 class AsyncStateBuilder extends StatefulWidget {
   final Widget customLoader;
