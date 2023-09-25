@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../asyncstate.dart';
+import 'package:asyncstate/src/src.dart';
 
 class AsyncNavigatorObserver extends NavigatorObserver {
   /// This class will observe the routes like push, pop and other. the class will update de context to use in the controller

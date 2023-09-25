@@ -175,6 +175,7 @@ If you encounter any problems feel free to open an [issue](https://github.com/De
   <tr>
     <td align="center"><a href="https://github.com/DevLSerrano"><img src="https://avatars.githubusercontent.com/u/62712813?v=4" width="100px;" alt=""/><br /><sub><b>Leonardo Serrano</b></sub></a><br /><a href="" title="Dev"></a></td>
     <td align="center"><a href="https://github.com/brasizza"><img src="https://avatars.githubusercontent.com/u/26041910?v=4" width="100px;" alt=""/><br /><sub><b>Marcus Brasizza</b></sub></a><br /><a href="" title="Dev"></a></td>
+    <td align="center"><a href="https://github.com/felipecastrosales"><img src="https://avatars.githubusercontent.com/u/59374587" width="100px;" alt=""/><br /><sub><b>Felipe Sales</b></sub></a><br /><a href="" title="Dev"></a></td>
   </tr>
 </table>
 

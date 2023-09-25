@@ -2,9 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-import '/exceptions/async_state_exception.dart';
-import '/observers/async_navigator_observer.dart';
-import '../enum/enum_loader_type.dart';
+import 'package:asyncstate/src/src.dart';
 
 /// Static class that will start the instance
 late final AsyncState asyncState;

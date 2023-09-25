@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:asyncstate/class/async_state_exception_handler.dart';
+import 'package:asyncstate/asyncstate.dart';
 import 'package:example/home/home_exception_model.dart';
 import 'package:flutter/material.dart';
 
