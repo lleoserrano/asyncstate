@@ -1,18 +1,6 @@
 library asyncstate;
 
-<<<<<<< Updated upstream
-import 'package:asyncstate/class/async_loader_handler.dart';
-import 'package:flutter/material.dart';
-import 'enum/enum_loader_type.dart';
-export 'class/async_class.dart';
-export 'mixin/asyncstate_mixin.dart';
-export 'class/async_value.dart';
-export 'enum/enum_loader_type.dart';
-export 'exceptions/async_state_exception.dart';
-export 'class/async_loader_handler.dart';
-=======
-import 'package:asyncstate/asyncstate.dart';
->>>>>>> Stashed changes
+import 'package:asyncstate/src/src.dart';
 
 export 'package:asyncstate/src/src.dart';
 

@@ -1,4 +1,4 @@
-import 'package:asyncstate/src/class/async_overlay.dart';
+import 'package:asyncstate/class/async_overlay.dart';
 import 'package:flutter/material.dart';
 
 class AsyncStateDefaultLoader extends AsyncOverlay {

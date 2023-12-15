@@ -2,11 +2,6 @@ import 'package:asyncstate/asyncstate.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/change_notifier.dart';
 
-<<<<<<< Updated upstream:lib/class/async_class.dart
-import '/exceptions/async_state_exception.dart';
-import '/observers/async_navigator_observer.dart';
-import '../enum/enum_loader_type.dart';
-=======
 @protected
 final class AsyncState {
   static final List<AsyncOverlay?> _asyncOverlays = [];
@@ -14,7 +9,6 @@ final class AsyncState {
   static late String _currentRouteName;
   static bool get capPop => _asyncOverlays.isEmpty;
   static BuildContext? _internalDialogContext;
->>>>>>> Stashed changes:lib/src/class/async_class.dart
 
   @protected
   static void updateContext(BuildContext? ctx) => _context = ctx;

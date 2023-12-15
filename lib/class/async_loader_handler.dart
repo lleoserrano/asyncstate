@@ -1,10 +1,4 @@
-<<<<<<< Updated upstream:lib/class/async_loader_handler.dart
-import 'dart:async';
-
-import 'package:asyncstate/asyncstate.dart';
-=======
 /* import 'package:asyncstate/src/src.dart';
->>>>>>> Stashed changes:lib/src/class/async_loader_handler.dart
 import 'package:flutter/material.dart';
 
 @protected
