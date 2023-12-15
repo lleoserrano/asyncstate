@@ -1,46 +1,36 @@
+<<<<<<< Updated upstream:lib/class/async_loader_handler.dart
 import 'dart:async';
 
 import 'package:asyncstate/asyncstate.dart';
+=======
+/* import 'package:asyncstate/src/src.dart';
+>>>>>>> Stashed changes:lib/src/class/async_loader_handler.dart
 import 'package:flutter/material.dart';
 
-var listOfASyncLoaderHandlers = <AsyncLoaderHandler>[];
+@protected
+final class AsyncState {
+  static late OverlayEntry _overlay;
 
-class AsyncLoaderHandler {
-  late final Completer<String> _completer;
-  final Widget? customLoader;
-  final LoaderType loaderType;
 
-  AsyncLoaderHandler({
-    this.customLoader,
-    this.loaderType = LoaderType.alertDialog,
+  static void open({
+    OverlayEntry? loader,
   }) {
-    _completer = Completer<String>();
-    listOfASyncLoaderHandlers.add(this);
+    if (_overlay.mounted) {
+      _overlay.remove();
+    }
+
+    _overlay = loader ??
+        OverlayEntry(
+          builder: (context) => const DefaultLoader(),
+        );
+
+    Overlay.of(asyncState.context!).insert(_overlay);
   }
 
-  factory AsyncLoaderHandler.start({
-    Widget? customLoader,
-    LoaderType loaderType = LoaderType.alertDialog,
-  }) =>
-      AsyncLoaderHandler(
-        customLoader: customLoader,
-        loaderType: loaderType,
-      )..start();
-
-  void start() {
-    listOfASyncLoaderHandlers.removeWhere(
-      (element) => element._completer.isCompleted,
-    );
-    asyncState.callAsyncLoader(
-      _completer.future,
-      customLoader: customLoader,
-      loaderType: loaderType,
-    );
-  }
-
-  void close() {
-    if (!_completer.isCompleted) {
-      _completer.complete('AsyncLoaderHandler');
+  static void close() {
+    if (_overlay.mounted) {
+      _overlay.remove();
     }
   }
 }
+ */

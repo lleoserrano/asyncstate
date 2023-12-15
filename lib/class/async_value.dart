@@ -1,29 +1,16 @@
-/* import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 
 enum AsyncValueState { loading, error, success }
 
-extension Helper<T> on T {
+extension AsyncValueHelper<T> on T {
   AsyncValue<T> asyncValue() => AsyncValue<T>(this);
-}
-
-extension AsyncValueStateExtension<T> on AsyncValue<T> {
-  void setLoading() => state.add(AsyncValueState.loading);
-  void setError(String? errorMessage) {
-    _errorMessage = errorMessage;
-    state.add(AsyncValueState.error);
-  }
-
-  void setSuccess(T newValue) {
-    value = newValue;
-    state.add(AsyncValueState.success);
-  }
 }
 
 class AsyncValue<T> {
   T value;
-  String? _errorMessage;
+  Exception? _exception;
   final StreamController<AsyncValueState> state;
 
   AsyncValue(
@@ -35,9 +22,20 @@ class AsyncValue<T> {
     state.close();
   }
 
+  void setLoading() => state.add(AsyncValueState.loading);
+  void setError(Exception? exception) {
+    _exception = exception;
+    state.add(AsyncValueState.error);
+  }
+
+  void setSuccess(T value) {
+    this.value = value;
+    state.add(AsyncValueState.success);
+  }
+
   Widget build({
     required Widget Function() loading,
-    required Widget Function(String? e) error,
+    required Widget Function(Exception exception, StackTrace stackTrace) error,
     required Widget Function(T value) success,
   }) {
     return StreamBuilder<AsyncValueState>(
@@ -48,7 +46,7 @@ class AsyncValue<T> {
           case AsyncValueState.loading:
             return loading();
           case AsyncValueState.error:
-            return error.call(_errorMessage);
+            return error.call(_exception ?? Exception(), StackTrace.current);
           case AsyncValueState.success:
             return success.call(value);
         }
@@ -56,4 +54,3 @@ class AsyncValue<T> {
     );
   }
 }
- */

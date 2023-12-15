@@ -5,8 +5,15 @@ class GlobalLoading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const FlutterLogo(
-      style: FlutterLogoStyle.stacked,
+    final size = MediaQuery.of(context).size;
+    return SizedBox(
+      width: size.width,
+      height: size.height,
+      child: const Center(
+        child: FlutterLogo(
+          style: FlutterLogoStyle.stacked,
+        ),
+      ),
     );
   }
 }

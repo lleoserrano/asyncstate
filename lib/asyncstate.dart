@@ -1,5 +1,6 @@
 library asyncstate;
 
+<<<<<<< Updated upstream
 import 'package:asyncstate/class/async_loader_handler.dart';
 import 'package:flutter/material.dart';
 import 'enum/enum_loader_type.dart';
@@ -9,37 +10,53 @@ export 'class/async_value.dart';
 export 'enum/enum_loader_type.dart';
 export 'exceptions/async_state_exception.dart';
 export 'class/async_loader_handler.dart';
+=======
+import 'package:asyncstate/asyncstate.dart';
+>>>>>>> Stashed changes
 
-AsyncLoaderHandler? extensionHandler;
+export 'package:asyncstate/src/src.dart';
 
 extension AsyncLoader<T> on Future<T> {
   //Extension on future to use in async methods
   Future<T> asyncLoader({
-    Widget? customLoader,
-    LoaderType loaderType = LoaderType.alertDialog,
+    AsyncOverlay? asyncOverlay,
   }) async {
-    extensionHandler = AsyncLoaderHandler.start(
-      customLoader: customLoader,
-      loaderType: loaderType,
-    );
-    final result = await this;
-    extensionHandler?.close();
-    return result;
+    try {
+      AsyncState.show(asyncOverlay: asyncOverlay);
+      final result = await this;
+      AsyncState.hide(id: asyncOverlay?.id);
+      return result;
+    } catch (e) {
+      AsyncState.hide(id: asyncOverlay?.id);
+      rethrow;
+    }
   }
 }
-
-extension AsyncStateHandlerContext on BuildContext {
-  void startAsyncStateLoader({
-    Widget? customLoader,
-    LoaderType loaderType = LoaderType.alertDialog,
+/* 
+extension AsyncLoaderT on Object {
+  void showLoader({
+    OverlayEntry? loader,
   }) {
-    extensionHandler = AsyncLoaderHandler.start(
-      customLoader: customLoader,
-      loaderType: loaderType,
+    AsyncState.show(
+      loader: loader,
     );
   }
 
-  void closeAsyncStateLoader() {
-    extensionHandler?.close();
+  void hiderLoader() {
+    AsyncState.hide();
   }
 }
+
+extension AsyncLoaderContext on BuildContext {
+  void showLoader({
+    OverlayEntry? loader,
+  }) {
+    AsyncState.show(
+      loader: loader,
+    );
+  }
+
+  void hiderLoader() {
+    AsyncState.hide();
+  }
+} */

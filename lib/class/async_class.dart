@@ -1,137 +1,93 @@
-import 'dart:developer';
-
+import 'package:asyncstate/asyncstate.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/src/foundation/change_notifier.dart';
 
+<<<<<<< Updated upstream:lib/class/async_class.dart
 import '/exceptions/async_state_exception.dart';
 import '/observers/async_navigator_observer.dart';
 import '../enum/enum_loader_type.dart';
+=======
+@protected
+final class AsyncState {
+  static final List<AsyncOverlay?> _asyncOverlays = [];
+  static BuildContext? _context;
+  static late String _currentRouteName;
+  static bool get capPop => _asyncOverlays.isEmpty;
+  static BuildContext? _internalDialogContext;
+>>>>>>> Stashed changes:lib/src/class/async_class.dart
 
-/// Static class that will start the instance
-late final AsyncState asyncState;
+  @protected
+  static void updateContext(BuildContext? ctx) => _context = ctx;
+  static BuildContext get context => _context!;
 
-class AsyncState<T> {
-  Widget defaultDialog;
-  BuildContext? context;
-  final bool enableLog;
-  String currentRouteName = '';
-  final _observer = AsyncNavigatorObserver();
+  @protected
+  static set currentRouteName(String currentRouteName) =>
+      _currentRouteName = currentRouteName;
 
-  set setContext(BuildContext ctx) => context = ctx;
+  static String get currentRouteName => _currentRouteName;
 
-  //Static Init
-  AsyncNavigatorObserver get observer => _observer;
-
-  //Constructor
-  AsyncState({
-    required this.defaultDialog,
-    this.enableLog = true,
-  });
-
-  Future<T> callAsyncLoader(
-    Future<T> futureFunction, {
-    Widget? customLoader,
-    LoaderType? loaderType,
-  }) async {
-    try {
-      if (loaderType == LoaderType.snackBar && customLoader is! SnackBar) {
-        throw AsyncStateException.errorCustomLoaderSnackbar();
-      }
-      if (loaderType == LoaderType.materialBanner &&
-          customLoader.runtimeType is! MaterialBanner) {
-        throw AsyncStateException.errorCustomLoaderMaterialBanner();
-      }
-      return await _callDialog(customLoader, futureFunction, loaderType);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  //Private method to call the loading dialog and handle the context.
-  Future<T> _callDialog(
-    Widget? customLoader,
-    Future<T> futureFunction,
-    LoaderType? loaderType,
-  ) async {
-    if (enableLog) {
-      log('AsyncLoader - Opened');
-    }
-    if (context == null) {
-      log(
-        AsyncStateException.errorContext().exception,
-      );
-      throw AsyncStateException.errorContext();
-    }
-
-    //Call both futures as the same time. the Dialog will still open until the futureFunction complete
-    final futures = await Future.wait(
-      [
-        _getLoaderType(
-          loaderType: loaderType ?? LoaderType.alertDialog,
-          customLoader: customLoader,
-        ),
-        futureFunction.whenComplete(() {
-          switch (loaderType) {
-            case LoaderType.alertDialog:
-              if (Navigator.canPop(context!)) {
-                Navigator.of(context!).pop();
-              }
-              break;
-            case LoaderType.snackBar:
-              ScaffoldMessenger.of(context!).hideCurrentSnackBar();
-              break;
-            case LoaderType.materialBanner:
-              ScaffoldMessenger.of(context!).hideCurrentMaterialBanner();
-              break;
-            default:
-              if (Navigator.canPop(context!)) {
-                Navigator.of(context!).pop();
-              }
-          }
-        }),
-      ],
-    );
-    if (enableLog) {
-      log('AsyncLoader - Closed');
-    }
-    return futures[1];
-  }
-
-  Future _getLoaderType({
-    required LoaderType loaderType,
-    Widget? customLoader,
+  static void show({
+    AsyncOverlay? asyncOverlay,
   }) {
-    return switch (loaderType) {
-      LoaderType.alertDialog => showDialog(
-          barrierDismissible: false,
-          context: context!,
-          useRootNavigator: false,
-          useSafeArea: false,
-          builder: (_) => WillPopScope(
-            child: customLoader ?? defaultDialog,
-            onWillPop: () async => false,
-          ),
-        ),
-      LoaderType.materialBanner => Future.value(
-          ScaffoldMessenger.of(context!).showMaterialBanner(
-            customLoader as MaterialBanner,
-          ),
-        ),
-      LoaderType.snackBar => Future.value(
-          ScaffoldMessenger.of(context!).showSnackBar(
-            customLoader as SnackBar,
-          ),
-        ),
-    };
+    if (_asyncOverlays.isEmpty) {
+      _openPrivateRoute();
+    }
+    final overlayEntry = asyncOverlay ?? AsyncStateDefaultLoader();
+    _asyncOverlays.add(overlayEntry);
+
+    Navigator.of(context).overlay?.insert(overlayEntry);
   }
 
-  //Get the stack trace (debug only)
-  /* String _getStackName(String method) {
-    final value = StackTrace.current.toString().split('\n');
-    value.removeWhere((element) => !element.startsWith('#4'));
+  static void hide({int? id}) {
+    final overlay = _asyncOverlays.firstWhere(
+      (element) => element?.id == id,
+      orElse: () => null,
+    );
+    if (overlay != null) {
+      overlay.remove();
+      overlay.dispose();
+      _asyncOverlays.remove(overlay);
+    } else if (_asyncOverlays.isNotEmpty) {
+      final overlayOnList = _asyncOverlays.removeAt(0);
 
-    if (value.isEmpty) {
-      return '';
+      overlayOnList?.remove();
+      overlayOnList?.dispose();
     }
-    return '$method - ' + value[0].substring(2).replaceAll(' ', '');
-  } */
+
+    if (_asyncOverlays.isEmpty) {
+      _closePrivateRoute();
+    }
+  }
+
+  static void _openPrivateRoute() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.black26,
+      builder: (dialogContext) {
+        _internalDialogContext = dialogContext;
+        return const PopScope(
+          canPop: false,
+          child: SizedBox.expand(),
+        );
+      },
+    );
+  }
+
+  static void _closePrivateRoute() {
+    Navigator.pop(_internalDialogContext!);
+  }
+}
+
+class MyPopEntry extends PopEntry {
+  @override
+  ValueListenable<bool> get canPopNotifier {
+    print('Call canPopNotifier');
+    return ValueNotifier(false);
+  }
+
+  @override
+  PopInvokedCallback? get onPopInvoked => (canPop) {
+        print('Pop Invoked');
+      };
 }

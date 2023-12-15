@@ -1,11 +1,15 @@
+<<<<<<< Updated upstream
 import 'package:asyncstate/widget/async_state_builder.dart';
 import 'package:example/components/global_loading.dart';
 import 'package:example/detail/detail_exception_handler.dart';
+=======
+import 'package:asyncstate/asyncstate.dart';
+import 'package:example/auth/profile_page.dart';
+>>>>>>> Stashed changes
 import 'package:example/detail/detail_page.dart';
-import 'package:example/exceptions/global_exception_handler.dart';
 import 'package:flutter/material.dart';
 
-import 'home/home_page.dart';
+import 'home_loader/home_loader_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,28 +24,40 @@ class MyApp extends StatelessWidget {
     return AsyncStateBuilder(
       /// Here you can customize your default loading that will show every transaction
       /// Leave it and it will show a simple CircularProgress.adaptive indicator
-      customLoader: const GlobalLoading(),
-
-      /// Here you can enable or disable the log
-      enableLog: true,
-
-      ///You can customize your exceptions handlers for route
-      exceptionHandlers: {
-        '_': GlobalExceptionHandler(),
-        '/Home/Detail': DetailExceptionHandler(),
+      /*  loader: OverlayEntry(
+        builder: (context) => const GlobalLoading(),
+      ), */
+      onException: (exception, stackTrace, context) {
+        /// Here you can handle your exceptions
+        /// Leave it and it will show a simple SnackBar with the exception.toString()
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              exception.toString(),
+            ),
+          ),
+        );
       },
+
       builder: (navigatorObserver) => MaterialApp(
+        navigatorObservers: [navigatorObserver],
+        onGenerateRoute: (settings) => MaterialPageRoute(
+          settings: settings,
+          builder: (context) => switch (settings.name) {
+            '/Home' => const HomeLoaderPage(),
+            '/Home/Detail' => const DetailPage(),
+            '/Home/Detail/ProfilePage' => const ProfilePage(),
+            _ => const SizedBox()
+          },
+        ),
         themeMode: ThemeMode.dark,
         theme: ThemeData.dark(),
-
-        /// Here you need to pass the navigatorObserver to the MaterialApp
-        navigatorObservers: [navigatorObserver],
         initialRoute: '/Home',
-        routes: {
-          '/Home': (context) => const HomePage(),
+        /* routes: {
+          '/Home': (context) => const HomeLoaderPage(),
           '/Home/Detail': (context) => const DetailPage(),
-          '/Home/Detail/SecondDetail': (context) => const SecondDetailPage(),
-        },
+          '/Home/Detail/ProfilePage': (context) => const ProfilePage(),
+        }, */
       ),
     );
   }
