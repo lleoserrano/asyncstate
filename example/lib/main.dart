@@ -1,6 +1,8 @@
 import 'package:asyncstate/asyncstate.dart';
 import 'package:example/auth/profile_page.dart';
 import 'package:example/detail/detail_page.dart';
+import 'package:example/home_async_value/home_async_value_page.dart';
+import 'package:example/root/root_page.dart';
 import 'package:flutter/material.dart';
 
 import 'home_loader/home_loader_page.dart';
@@ -21,16 +23,37 @@ class MyApp extends StatelessWidget {
       /*  loader: OverlayEntry(
         builder: (context) => const GlobalLoading(),
       ), */
-      onException: (exception, stackTrace, context) {
+      onError: (ErrorKit errorKit) {
         /// Here you can handle your exceptions
         /// Leave it and it will show a simple SnackBar with the exception.toString()
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              exception.toString(),
-            ),
-          ),
-        );
+        ///
+        print('Current Page: ' + errorKit.currentRoute);
+        switch (errorKit.currentRoute) {
+          case '/Root/HomeLoader/Detail':
+            showDialog(
+              context: errorKit.context,
+              builder: (context) => AlertDialog(
+                title: const Text('Error'),
+                content: Text(errorKit.error.toString()),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('Ok'),
+                  )
+                ],
+              ),
+            );
+            break;
+          case _:
+            ScaffoldMessenger.of(errorKit.context).showSnackBar(
+              SnackBar(
+                content: Text(
+                  errorKit.error.toString(),
+                ),
+              ),
+            );
+            break;
+        }
       },
 
       builder: (navigatorObserver) => MaterialApp(
@@ -38,15 +61,17 @@ class MyApp extends StatelessWidget {
         onGenerateRoute: (settings) => MaterialPageRoute(
           settings: settings,
           builder: (context) => switch (settings.name) {
-            '/Home' => const HomeLoaderPage(),
-            '/Home/Detail' => const DetailPage(),
-            '/Home/Detail/ProfilePage' => const ProfilePage(),
+            '/Root' => const RootPage(),
+            '/Root/HomeAsyncValue' => const HomeAsyncValuePage(),
+            '/Root/HomeLoader' => const HomeLoaderPage(),
+            '/Root/HomeLoader/Detail' => const DetailPage(),
+            '/Root/HomeLoader/ProfilePage' => const ProfilePage(),
             _ => const SizedBox()
           },
         ),
         themeMode: ThemeMode.dark,
         theme: ThemeData.dark(),
-        initialRoute: '/Home',
+        initialRoute: '/Root',
         /* routes: {
           '/Home': (context) => const HomeLoaderPage(),
           '/Home/Detail': (context) => const DetailPage(),

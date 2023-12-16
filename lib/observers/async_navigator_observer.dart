@@ -1,4 +1,4 @@
-import 'package:asyncstate/class/async_class.dart';
+import 'package:asyncstate/class/private_async_helper.dart';
 import 'package:flutter/material.dart';
 
 class AsyncNavigatorObserver extends NavigatorObserver {
@@ -6,42 +6,42 @@ class AsyncNavigatorObserver extends NavigatorObserver {
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     // ignore: invalid_use_of_protected_member
-    AsyncState.updateContext(navigator!.context);
+    PrivateAsyncHelper.context = navigator!.context;
     if (route.settings.name != null && route.settings.name!.isNotEmpty) {
       // ignore: invalid_use_of_protected_member
-      AsyncState.currentRouteName = route.settings.name!;
+      PrivateAsyncHelper.currentRouteName = route.settings.name!;
     }
   }
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     // ignore: invalid_use_of_protected_member
-    AsyncState.updateContext(navigator!.context);
+    PrivateAsyncHelper.context = navigator!.context;
     if (newRoute?.settings.name != null &&
         newRoute!.settings.name!.isNotEmpty) {
       // ignore: invalid_use_of_protected_member
-      AsyncState.currentRouteName = newRoute.settings.name!;
+      PrivateAsyncHelper.currentRouteName = newRoute.settings.name!;
     }
   }
 
   @override
   void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
     // ignore: invalid_use_of_protected_member
-    AsyncState.updateContext(navigator!.context);
+    PrivateAsyncHelper.context = navigator!.context;
     if (route.settings.name != null && route.settings.name!.isNotEmpty) {
       // ignore: invalid_use_of_protected_member
-      AsyncState.currentRouteName = route.settings.name!;
+      PrivateAsyncHelper.currentRouteName = route.settings.name!;
     }
   }
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) async {
     // ignore: invalid_use_of_protected_member
-    AsyncState.updateContext(navigator!.context);
+    PrivateAsyncHelper.context = navigator!.context;
     if (previousRoute?.settings.name != null &&
         previousRoute!.settings.name!.isNotEmpty) {
       // ignore: invalid_use_of_protected_member
-      AsyncState.currentRouteName = previousRoute.settings.name!;
+      PrivateAsyncHelper.currentRouteName = previousRoute.settings.name!;
     }
   }
 }

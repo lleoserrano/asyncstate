@@ -22,7 +22,7 @@ class LoaderLogin extends AsyncOverlay {
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
                     ),
-                    color: Colors.redAccent,
+                    color: Colors.blueGrey,
                   ),
                   child: Padding(
                     padding: EdgeInsets.all(8.0),

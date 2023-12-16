@@ -1,4 +1,4 @@
-import 'package:asyncstate/asyncstate.dart';
+import 'package:asyncstate/class/private_async_helper.dart';
 import 'package:flutter/material.dart';
 
 class AsyncOverlay extends OverlayEntry {
@@ -12,7 +12,8 @@ class AsyncOverlay extends OverlayEntry {
   }) : super(
           builder: (context) => Material(
             color: Colors.transparent,
-            child: builder(AsyncState.context),
+            // ignore: invalid_use_of_protected_member
+            child: builder(PrivateAsyncHelper.context),
           ),
           maintainState: maintainState,
           opaque: false,

@@ -1,24 +1,12 @@
-import 'package:asyncstate/asyncstate.dart';
+import 'package:asyncstate/class/private_async_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/change_notifier.dart';
+
+import '../widget/loader/async_state_default_loader.dart';
+import 'async_overlay.dart';
 
 @protected
 final class AsyncState {
   static final List<AsyncOverlay?> _asyncOverlays = [];
-  static BuildContext? _context;
-  static late String _currentRouteName;
-  static bool get capPop => _asyncOverlays.isEmpty;
-  static BuildContext? _internalDialogContext;
-
-  @protected
-  static void updateContext(BuildContext? ctx) => _context = ctx;
-  static BuildContext get context => _context!;
-
-  @protected
-  static set currentRouteName(String currentRouteName) =>
-      _currentRouteName = currentRouteName;
-
-  static String get currentRouteName => _currentRouteName;
 
   static void show({
     AsyncOverlay? asyncOverlay,
@@ -29,7 +17,7 @@ final class AsyncState {
     final overlayEntry = asyncOverlay ?? AsyncStateDefaultLoader();
     _asyncOverlays.add(overlayEntry);
 
-    Navigator.of(context).overlay?.insert(overlayEntry);
+    Navigator.of(PrivateAsyncHelper.context).overlay?.insert(overlayEntry);
   }
 
   static void hide({int? id}) {
@@ -55,11 +43,11 @@ final class AsyncState {
 
   static void _openPrivateRoute() {
     showDialog(
-      context: context,
+      context: PrivateAsyncHelper.context,
       barrierDismissible: false,
       barrierColor: Colors.black26,
       builder: (dialogContext) {
-        _internalDialogContext = dialogContext;
+        PrivateAsyncHelper.internalDialogContext = dialogContext;
         return const PopScope(
           canPop: false,
           child: SizedBox.expand(),
@@ -69,19 +57,6 @@ final class AsyncState {
   }
 
   static void _closePrivateRoute() {
-    Navigator.pop(_internalDialogContext!);
+    Navigator.pop(PrivateAsyncHelper.internalDialogContext);
   }
-}
-
-class MyPopEntry extends PopEntry {
-  @override
-  ValueListenable<bool> get canPopNotifier {
-    print('Call canPopNotifier');
-    return ValueNotifier(false);
-  }
-
-  @override
-  PopInvokedCallback? get onPopInvoked => (canPop) {
-        print('Pop Invoked');
-      };
 }

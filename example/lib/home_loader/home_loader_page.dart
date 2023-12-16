@@ -57,7 +57,7 @@ class HomeLoaderPage extends StatelessWidget {
               backgroundColor: Colors.blueGrey[900],
             ),
             onPressed: () async {
-              Navigator.of(context).pushNamed('/Home/Detail');
+              Navigator.of(context).pushNamed('/Root/HomeLoader/Detail');
             },
             child: const Text('Detail Page'),
           ),
@@ -67,7 +67,7 @@ class HomeLoaderPage extends StatelessWidget {
               backgroundColor: Colors.blueGrey[900],
             ),
             onPressed: () async {
-              Navigator.of(context).pushNamed('/Home/Detail/ProfilePage');
+              Navigator.of(context).pushNamed('/Root/HomeLoader/ProfilePage');
             },
             child: const Text('Go to Profile Page'),
           ),

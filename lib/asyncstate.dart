@@ -20,31 +20,3 @@ extension AsyncLoader<T> on Future<T> {
     }
   }
 }
-/* 
-extension AsyncLoaderT on Object {
-  void showLoader({
-    OverlayEntry? loader,
-  }) {
-    AsyncState.show(
-      loader: loader,
-    );
-  }
-
-  void hiderLoader() {
-    AsyncState.hide();
-  }
-}
-
-extension AsyncLoaderContext on BuildContext {
-  void showLoader({
-    OverlayEntry? loader,
-  }) {
-    AsyncState.show(
-      loader: loader,
-    );
-  }
-
-  void hiderLoader() {
-    AsyncState.hide();
-  }
-} */
