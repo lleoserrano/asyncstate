@@ -58,25 +58,16 @@ class MyApp extends StatelessWidget {
 
       builder: (navigatorObserver) => MaterialApp(
         navigatorObservers: [navigatorObserver],
-        onGenerateRoute: (settings) => MaterialPageRoute(
-          settings: settings,
-          builder: (context) => switch (settings.name) {
-            '/Root' => const RootPage(),
-            '/Root/HomeAsyncValue' => const HomeAsyncValuePage(),
-            '/Root/HomeLoader' => const HomeLoaderPage(),
-            '/Root/HomeLoader/Detail' => const DetailPage(),
-            '/Root/HomeLoader/ProfilePage' => const ProfilePage(),
-            _ => const SizedBox()
-          },
-        ),
         themeMode: ThemeMode.dark,
         theme: ThemeData.dark(),
         initialRoute: '/Root',
-        /* routes: {
-          '/Home': (context) => const HomeLoaderPage(),
-          '/Home/Detail': (context) => const DetailPage(),
-          '/Home/Detail/ProfilePage': (context) => const ProfilePage(),
-        }, */
+        routes: {
+          '/Root': (context) => const RootPage(),
+          '/Root/HomeAsyncValue': (context) => const HomeAsyncValuePage(),
+          '/Root/HomeLoader': (context) => const HomeLoaderPage(),
+          '/Root/HomeLoader/Detail': (context) => const DetailPage(),
+          '/Root/HomeLoader/ProfilePage': (context) => const ProfilePage(),
+        },
       ),
     );
   }

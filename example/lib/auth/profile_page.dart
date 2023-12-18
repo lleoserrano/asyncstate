@@ -42,6 +42,48 @@ class ProfilePage extends StatelessWidget {
               },
               child: const Text('Loader Fetch Data and Login'),
             ),
+            const SizedBox(
+              height: 16,
+            ),
+            const Text('Both and Communicate'),
+            const SizedBox(
+              height: 16,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                // AsyncState.show(asyncOverlay: LoaderLogin());
+                //or
+                await Future.delayed(
+                  const Duration(seconds: 2),
+                  () {
+                    return {
+                      'email': 'example.com',
+                      'pass': 'abc123',
+                    };
+                  },
+                ).asyncLoader(
+                  asyncOverlay: LoaderLogin(),
+                  autoHide: false,
+                );
+                ////////
+                await Future.delayed(
+                  const Duration(seconds: 3),
+                  () {
+                    return {
+                      'email': 'example.com',
+                      'pass': 'abc123',
+                    };
+                  },
+                ).asyncLoader(
+                  asyncOverlay: LoaderFetchData(),
+                );
+
+                LoaderLogin.tooltipController.show();
+                await Future.delayed(const Duration(seconds: 3));
+                AsyncState.hide(id: LoaderLogin.idLoaderLogin);
+              },
+              child: const Text('Both loaders'),
+            ),
           ],
         ),
       ),

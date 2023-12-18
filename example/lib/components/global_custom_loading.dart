@@ -6,7 +6,7 @@ class GlobalCustomLoading extends AsyncOverlay {
   GlobalCustomLoading()
       : super(
           id: idGlobalCustomLoading,
-          builder: (context) => Center(
+          builder: (context, settings, communicate) => Center(
             child: SizedBox(
               width: MediaQuery.sizeOf(context).width * .8,
               child: const LinearProgressIndicator(),

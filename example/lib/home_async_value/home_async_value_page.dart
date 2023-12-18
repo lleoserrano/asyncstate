@@ -54,7 +54,7 @@ class HomeAsyncValuePage extends StatelessWidget {
                     ),
                     SizedBox(
                       width: 150,
-                      child: FloatingActionButton(
+                      child: ElevatedButton(
                         onPressed: () => updateInternal(),
                         child: const Text('Change Name'),
                       ),
@@ -64,7 +64,7 @@ class HomeAsyncValuePage extends StatelessWidget {
                     ),
                     SizedBox(
                       width: 150,
-                      child: FloatingActionButton(
+                      child: ElevatedButton(
                         onPressed: () => loadMe(),
                         child: const Text('Get User'),
                       ),
@@ -124,7 +124,7 @@ class HomeAsyncValuePage extends StatelessWidget {
                     ),
                     SizedBox(
                       width: 150,
-                      child: FloatingActionButton(
+                      child: ElevatedButton(
                         onPressed: () async => myUserAsyncClass.login(),
                         child: const Text('Login'),
                       ),
@@ -134,7 +134,7 @@ class HomeAsyncValuePage extends StatelessWidget {
                     ),
                     SizedBox(
                       width: 150,
-                      child: FloatingActionButton(
+                      child: ElevatedButton(
                         onPressed: () => myUserAsyncClass.logout(),
                         child: const Text('Logout'),
                       ),

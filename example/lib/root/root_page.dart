@@ -7,6 +7,7 @@ class RootPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text(''),
       ),
       body: Center(
@@ -16,7 +17,7 @@ class RootPage extends StatelessWidget {
             const Text('AsyncValue'),
             ElevatedButton(
               onPressed: () =>
-                  Navigator.of(context).pushNamed('Root/HomeAsyncValue'),
+                  Navigator.of(context).pushNamed('/Root/HomeAsyncValue'),
               child: const Text('HomeAsyncValue'),
             ),
             const SizedBox(

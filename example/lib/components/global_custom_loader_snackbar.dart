@@ -7,7 +7,7 @@ class HomeCustomLoaderSnackbar extends AsyncOverlay {
   HomeCustomLoaderSnackbar()
       : super(
           id: idHomeCustomLoaderSnackbar,
-          builder: (context) => Scaffold(
+          builder: (context, settings, communicate) => Scaffold(
             backgroundColor: Colors.transparent,
             body: Align(
               alignment: Alignment.bottomCenter,

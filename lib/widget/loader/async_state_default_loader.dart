@@ -5,7 +5,7 @@ class AsyncStateDefaultLoader extends AsyncOverlay {
   AsyncStateDefaultLoader()
       : super(
           id: DateTime.now().microsecondsSinceEpoch,
-          builder: (context) => const SizedBox(
+          builder: (context, settings, communicate) => const SizedBox(
             width: 50,
             height: 50,
             child: Center(

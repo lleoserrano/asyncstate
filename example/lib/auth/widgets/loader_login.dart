@@ -8,7 +8,7 @@ class LoaderLogin extends AsyncOverlay {
   LoaderLogin()
       : super(
           id: idLoaderLogin,
-          builder: (context) => OverlayPortal(
+          builder: (context, settings, communicate) => OverlayPortal(
             controller: tooltipController,
             overlayChildBuilder: (context) {
               RenderBox box =
@@ -17,16 +17,17 @@ class LoaderLogin extends AsyncOverlay {
               return Positioned(
                 top: position.dy + kToolbarHeight,
                 left: position.dx,
-                child: const DecoratedBox(
-                  decoration: BoxDecoration(
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(8),
                     ),
                     color: Colors.blueGrey,
                   ),
                   child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Text('Wait more some seconds... 😖'),
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                        'Wait more some seconds... 😖 \nReceived Argument:\n\n${settings?.arguments}'),
                   ),
                 ),
               );
