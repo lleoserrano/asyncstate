@@ -1,7 +1,8 @@
 import 'package:asyncstate/asyncstate.dart';
-import 'package:example/auth/profile_page.dart';
 import 'package:example/detail/detail_page.dart';
 import 'package:example/home_async_value/home_async_value_page.dart';
+import 'package:example/login/login_page.dart';
+import 'package:example/profile/profile_page.dart';
 import 'package:example/root/root_page.dart';
 import 'package:flutter/material.dart';
 
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/Root',
         routes: {
           '/Root': (context) => const RootPage(),
+          '/Root/Login': (context) => LoginPage(),
           '/Root/HomeAsyncValue': (context) => const HomeAsyncValuePage(),
           '/Root/HomeLoader': (context) => const HomeLoaderPage(),
           '/Root/HomeLoader/Detail': (context) => const DetailPage(),

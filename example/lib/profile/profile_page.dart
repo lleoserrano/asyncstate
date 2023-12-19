@@ -1,6 +1,6 @@
 import 'package:asyncstate/asyncstate.dart';
-import 'package:example/auth/widgets/loader_fetch_data.dart';
-import 'package:example/auth/widgets/loader_login.dart';
+import 'package:example/profile/widgets/loader_fetch_data.dart';
+import 'package:example/profile/widgets/loader_login.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatelessWidget {

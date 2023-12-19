@@ -29,6 +29,14 @@ class RootPage extends StatelessWidget {
                   Navigator.of(context).pushNamed('/Root/HomeLoader'),
               child: const Text('HomeAsyncStateLoaders'),
             ),
+            const SizedBox(
+              height: 16,
+            ),
+            const Text('Login Vm Example'),
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).pushNamed('/Root/Login'),
+              child: const Text('Login Vm Example'),
+            ),
           ],
         ),
       ),
