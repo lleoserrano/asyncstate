@@ -2,14 +2,16 @@ import 'package:asyncstate/class/async_overlay_route.dart';
 import 'package:flutter/material.dart';
 
 import 'async_overlay.dart';
+import 'async_value.dart';
 
 @protected
 final class AsyncState {
-  static RouteSettings? _settings;
   @protected
-  static RouteSettings? get settings => _settings;
+  static AsyncValue<RouteSettings> get getOverlaySettings =>
+      _asyncOverlayRoute.getStreamSettings;
   @protected
-  static set settings(RouteSettings? settings) => _settings = settings;
+  static set setOverlaySettings(RouteSettings settings) =>
+      _asyncOverlayRoute.getStreamSettings.value = settings;
 
   static var _asyncOverlayRoute = AsyncOverlayRoute();
 
@@ -17,7 +19,6 @@ final class AsyncState {
     AsyncOverlay? asyncOverlay,
     RouteSettings? settings,
   }) {
-    _settings = settings;
     if (!_asyncOverlayRoute.isActive) {
       _asyncOverlayRoute = AsyncOverlayRoute(settings: settings);
     }

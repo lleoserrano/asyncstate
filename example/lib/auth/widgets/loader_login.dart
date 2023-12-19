@@ -8,28 +8,39 @@ class LoaderLogin extends AsyncOverlay {
   LoaderLogin()
       : super(
           id: idLoaderLogin,
-          builder: (context, settings, communicate) => OverlayPortal(
+          builder: (context, settings) => OverlayPortal(
             controller: tooltipController,
             overlayChildBuilder: (context) {
               RenderBox box =
                   _myKey.currentContext?.findRenderObject() as RenderBox;
               Offset position = box.localToGlobal(Offset.zero);
-              return Positioned(
-                top: position.dy + kToolbarHeight,
-                left: position.dx,
-                child: DecoratedBox(
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(8),
+              final sizeScreen = MediaQuery.sizeOf(context);
+              return ValueListenableBuilder(
+                valueListenable: settings,
+                builder: (context, settings, snapshot) {
+                  final arguments = settings.arguments;
+                  return Positioned(
+                    top: position.dy + kToolbarHeight,
+                    left: position.dx,
+                    child: DecoratedBox(
+                      decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(8),
+                        ),
+                        color: Colors.blueGrey,
+                      ),
+                      child: SizedBox(
+                        width: sizeScreen.width / 2,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            'Wait more some seconds... 😖 \nReceived new Argument:\n\n$arguments',
+                          ),
+                        ),
+                      ),
                     ),
-                    color: Colors.blueGrey,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                        'Wait more some seconds... 😖 \nReceived Argument:\n\n${settings?.arguments}'),
-                  ),
-                ),
+                  );
+                },
               );
             },
             child: Center(

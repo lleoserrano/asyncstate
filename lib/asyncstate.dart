@@ -16,10 +16,10 @@ extension AsyncLoader<T> on Future<T> {
       final result = await this;
 
       // ignore: invalid_use_of_protected_member
-      AsyncState.settings = RouteSettings(
+      AsyncState.setOverlaySettings = RouteSettings(
         arguments: result,
         // ignore: invalid_use_of_protected_member
-        name: AsyncState.settings?.name,
+        name: AsyncState.getOverlaySettings.value.name,
       );
       if (autoHide) {
         AsyncState.hide(id: asyncOverlay?.id);
@@ -27,10 +27,10 @@ extension AsyncLoader<T> on Future<T> {
       return result;
     } catch (e) {
       // ignore: invalid_use_of_protected_member
-      AsyncState.settings = RouteSettings(
+      AsyncState.setOverlaySettings = RouteSettings(
         arguments: e,
         // ignore: invalid_use_of_protected_member
-        name: AsyncState.settings?.name,
+        name: AsyncState.getOverlaySettings.value.name,
       );
       if (autoHide) {
         AsyncState.hide(id: asyncOverlay?.id);

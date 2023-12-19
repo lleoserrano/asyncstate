@@ -1,4 +1,5 @@
 import 'package:asyncstate/class/async_class.dart';
+import 'package:asyncstate/class/async_value.dart';
 import 'package:asyncstate/class/private_async_helper.dart';
 import 'package:flutter/material.dart';
 
@@ -11,8 +12,7 @@ class AsyncOverlay extends OverlayEntry {
     required this.id,
     required Widget Function(
       BuildContext context,
-      RouteSettings? settings,
-      Communicate communicate,
+      AsyncValue<RouteSettings> settings,
     ) builder,
     bool maintainState = false,
   }) : super(
@@ -21,11 +21,7 @@ class AsyncOverlay extends OverlayEntry {
             child: builder(
               PrivateAsyncHelper.context,
               // ignore: invalid_use_of_protected_member
-              AsyncState.settings,
-              (RouteSettings? settings) {
-                // ignore: invalid_use_of_protected_member
-                AsyncState.settings = settings;
-              },
+              AsyncState.getOverlaySettings,
             ),
           ),
           maintainState: maintainState,

@@ -1,4 +1,5 @@
 import 'package:asyncstate/class/async_overlay.dart';
+import 'package:asyncstate/class/async_value.dart';
 import 'package:asyncstate/class/private_async_helper.dart';
 import 'package:asyncstate/widget/loader/async_state_default_loader.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ class AsyncOverlayRoute extends OverlayRoute {
   AsyncOverlayRoute({
     super.settings,
   });
+  final _settings = const RouteSettings().asyncValue();
+  AsyncValue<RouteSettings> get getStreamSettings => _settings;
   final List<AsyncOverlay> _asyncOverlays = [];
 
   void add(
@@ -14,6 +17,7 @@ class AsyncOverlayRoute extends OverlayRoute {
     AsyncOverlay? asyncOverlay,
   }) {
     if (_asyncOverlays.isEmpty) {
+      _settings.value = settings;
       Navigator.of(PrivateAsyncHelper.context).push(route);
     }
     final overlayEntry = asyncOverlay ?? AsyncStateDefaultLoader();
@@ -31,6 +35,14 @@ class AsyncOverlayRoute extends OverlayRoute {
     overlay.remove();
 
     Navigator.pop(PrivateAsyncHelper.context);
+  }
+
+  @override
+  void onPopInvoked(bool didPop) {
+    if (_asyncOverlays.isEmpty) {
+      _settings.dispose();
+    }
+    super.onPopInvoked(didPop);
   }
 
   @override

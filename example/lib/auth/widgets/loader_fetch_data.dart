@@ -6,36 +6,52 @@ class LoaderFetchData extends AsyncOverlay {
 
   LoaderFetchData()
       : super(
-            id: idLoaderFetchData,
-            builder: (context, settings, communicate) {
-              return const Padding(
-                padding: EdgeInsets.all(24.0),
-                child: Align(
-                    alignment: Alignment.topRight,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(8),
+          id: idLoaderFetchData,
+          builder: (context, settings) {
+            return Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Align(
+                alignment: Alignment.topRight,
+                child: DecoratedBox(
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(8),
+                    ),
+                    color: Colors.blueAccent,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const SizedBox(
+                          height: 24,
+                          child: CircularProgressIndicator.adaptive(),
                         ),
-                        color: Colors.blueAccent,
-                      ),
-                      child: SizedBox(
-                        height: kToolbarHeight * 2,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              SizedBox(
-                                height: 24,
-                                child: CircularProgressIndicator.adaptive(),
-                              ),
-                              Text('Positioned\nFetching Data...'),
-                            ],
+                        const Text('\nCurrent Data...'),
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        ValueListenableBuilder(
+                          valueListenable: settings,
+                          builder: (context, settings, widget) => Text(
+                            settings.arguments?.toString() ?? 'Empty',
                           ),
                         ),
-                      ),
-                    )),
-              );
-            });
+                        const SizedBox(
+                          height: 24,
+                        ),
+                        const Text('\nFetching new data...'),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        );
 }

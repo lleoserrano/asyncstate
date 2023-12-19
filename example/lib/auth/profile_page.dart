@@ -57,7 +57,7 @@ class ProfilePage extends StatelessWidget {
                   const Duration(seconds: 2),
                   () {
                     return {
-                      'email': 'example.com',
+                      'email': 'emailWrong.com',
                       'pass': 'abc123',
                     };
                   },
@@ -65,12 +65,13 @@ class ProfilePage extends StatelessWidget {
                   asyncOverlay: LoaderLogin(),
                   autoHide: false,
                 );
-                ////////
+
+                ///--///--///
                 await Future.delayed(
                   const Duration(seconds: 3),
                   () {
                     return {
-                      'email': 'example.com',
+                      'email': 'EmailCorrect.com',
                       'pass': 'abc123',
                     };
                   },
@@ -78,6 +79,7 @@ class ProfilePage extends StatelessWidget {
                   asyncOverlay: LoaderFetchData(),
                 );
 
+                ///--///--///
                 LoaderLogin.tooltipController.show();
                 await Future.delayed(const Duration(seconds: 3));
                 AsyncState.hide(id: LoaderLogin.idLoaderLogin);
