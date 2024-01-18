@@ -1,19 +1,24 @@
+import 'package:asyncstate/asyncstate.dart';
 import 'package:flutter/material.dart';
 
-class GlobalLoading extends StatelessWidget {
-  const GlobalLoading({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    return SizedBox(
-      width: size.width,
-      height: size.height,
-      child: const Center(
-        child: FlutterLogo(
-          style: FlutterLogoStyle.stacked,
-        ),
-      ),
-    );
-  }
+class GlobalLoading extends AsyncOverlay {
+  static const idGlobalLoader = 0;
+  GlobalLoading()
+      : super(
+          id: idGlobalLoader,
+          builder: (context, settings) {
+            return const Center(
+              child: Card(
+                color: Colors.white,
+                child: Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: FlutterLogo(
+                    size: 100,
+                    style: FlutterLogoStyle.stacked,
+                  ),
+                ),
+              ),
+            );
+          },
+        );
 }

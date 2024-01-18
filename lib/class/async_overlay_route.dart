@@ -4,6 +4,8 @@ import 'package:asyncstate/class/private_async_helper.dart';
 import 'package:asyncstate/widget/loader/async_state_default_loader.dart';
 import 'package:flutter/material.dart';
 
+import 'async_class.dart';
+
 class AsyncOverlayRoute extends OverlayRoute {
   AsyncOverlayRoute({
     super.settings,
@@ -20,7 +22,8 @@ class AsyncOverlayRoute extends OverlayRoute {
       _settings.value = settings;
       Navigator.of(PrivateAsyncHelper.context).push(route);
     }
-    final overlayEntry = asyncOverlay ?? AsyncStateDefaultLoader();
+    final overlayEntry =
+        asyncOverlay ?? customOverlay ?? AsyncStateDefaultLoader();
     _asyncOverlays.add(overlayEntry);
     Navigator.of(PrivateAsyncHelper.context).overlay?.insert(overlayEntry);
   }

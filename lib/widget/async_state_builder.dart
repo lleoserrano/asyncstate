@@ -1,3 +1,5 @@
+import 'package:asyncstate/class/async_class.dart';
+import 'package:asyncstate/class/async_overlay.dart';
 import 'package:asyncstate/class/private_async_helper.dart';
 import 'package:asyncstate/observers/async_navigator_observer.dart';
 import 'package:flutter/foundation.dart';
@@ -15,7 +17,7 @@ typedef OnError = void Function(
 );
 
 class AsyncStateBuilder extends StatelessWidget {
-  final OverlayEntry? loader;
+  final AsyncOverlay? loader;
   final Widget Function(
     AsyncNavigatorObserver navigatorObserver,
   ) builder;
@@ -30,6 +32,7 @@ class AsyncStateBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    customOverlay = loader;
     PlatformDispatcher.instance.onError = (error, stack) {
       if (onError != null) {
         onError!(

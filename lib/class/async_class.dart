@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'async_overlay.dart';
 import 'async_value.dart';
 
+AsyncOverlay? customOverlay;
+
 @protected
 final class AsyncState {
   @protected

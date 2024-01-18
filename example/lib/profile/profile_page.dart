@@ -51,8 +51,6 @@ class ProfilePage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                // AsyncState.show(asyncOverlay: LoaderLogin());
-                //or
                 await Future.delayed(
                   const Duration(seconds: 2),
                   () {

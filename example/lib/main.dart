@@ -1,4 +1,5 @@
 import 'package:asyncstate/asyncstate.dart';
+import 'package:example/components/global_loading.dart';
 import 'package:example/detail/detail_page.dart';
 import 'package:example/home_async_value/home_async_value_page.dart';
 import 'package:example/login/login_page.dart';
@@ -21,14 +22,11 @@ class MyApp extends StatelessWidget {
     return AsyncStateBuilder(
       /// Here you can customize your default loading that will show every transaction
       /// Leave it and it will show a simple CircularProgress.adaptive indicator
-      /*  loader: OverlayEntry(
-        builder: (context) => const GlobalLoading(),
-      ), */
+      loader: GlobalLoading(),
       onError: (ErrorKit errorKit) {
         /// Here you can handle your exceptions
         /// Leave it and it will show a simple SnackBar with the exception.toString()
         ///
-        print('Current Page: ' + errorKit.currentRoute);
         switch (errorKit.currentRoute) {
           case '/Root/HomeLoader/Detail':
             showDialog(
