@@ -36,130 +36,163 @@
  [-] **Linux** (not tested yet)<br> 
  [-] **Windows** (not tested yet)<br>-->
 
+ 
+# Importante
+ <body>
+  1 - The package uses the application's main navigator, so commands like "dart Navigator.of(context).pop()" can close the loader.<br />
+  2 - The "Asyncvalue" class extends "ValueNotifier" and adds some extra functions, so the same precautions must be taken when using, such as calling "dispose".<br />
+  3 - Don't worry if you call a "loade"r with another "loader" already open, the "asyncState" will just update the internal widget if necessary.<br />
+  - 3.1 - This means there will be no impact from opening and closing, and you can pass a custom "loader" to change, indicating another type of wait.<br /> 
+ </body>
+ 
 # Usage 
  <body>
   1 - Wrap your MaterialApp Or CurpertinoApp with the AsyncStateBuilder.<br />
   2 - Get the "navigatorObserver" from the builder function and add it to your component's "navigatorObservers".<br />
-  3 - If you want, you can add a widget to "CustomLoader", exceptionHandlers or disable the log.<br /> 
+  3 - If you want, you can add a widget to "loader", or do something in "onError" function.<br /> 
  </body>
 
---------------
-`Code example:`
+-------------------------------------------------------------------------------------
 ```dart
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
+@override
   Widget build(BuildContext context) {
     /// Here you need to wrap your MaterialApp with the AsyncStateBuilder
     return AsyncStateBuilder(
       /// Here you can customize your default loading that will show every transaction
       /// Leave it and it will show a simple CircularProgress.adaptive indicator
-      customLoader: const GlobalLoading(),
-
-      /// Here you can enable or disable the log
-      enableLog: true,
-
-      ///You can customize your exceptions handlers for route
-      exceptionHandlers: {
-        '_': GlobalExceptionHandler(),
-        '/Home/Detail': DetailExceptionHandler(),
+      loader: const GlobalLoading(),
+      onError: (error, stackTrace, context, routeSettings) {
+        /// Here you can handle your exceptions
+        switch (routeSettings?.name ?? '') {
+          case '/Detail':
+            DetailPageHandlerException.onError(
+              error,
+              stackTrace,
+              context,
+              routeSettings,
+            );
+            break;
+          case _:
+            ScaffoldMessenger.of(context!).showSnackBar(
+              SnackBar(
+                content: Text(
+                  error.toString(),
+                ),
+              ),
+            );
+            break;
+        }
       },
       builder: (navigatorObserver) => MaterialApp(
+        navigatorObservers: [navigatorObserver],
         themeMode: ThemeMode.dark,
         theme: ThemeData.dark(),
-
-        /// Here you need to pass the navigatorObserver to the MaterialApp
-        navigatorObservers: [navigatorObserver],
-        initialRoute: '/Home',
+        initialRoute: '/',
         routes: {
-          '/Home': (context) => const HomePage(),
-          '/Home/Detail': (context) => const DetailPage(),
-          '/Home/Detail/SecondDetail': (context) => const SecondDetailPage(),
+          '/': (context) => const HomeLoaderPage(),
+          '/Detail': (context) => const DetailPage(),
+          '/Profile': (context) => const ProfilePage()
         },
       ),
     );
   }
-} 
 ```
-
 -------------------------------------------------------------------------------------
-# Attention
-### All methods allow you to customize the “loader”, when you change the "enum LoaderType", you need to ensure that the "customLoader" is already a widget of the same type.
--------------------------------------------------------------------------------------
-# Method - (Extension) asyncState
-###  Use the “asyncState” extension in asynchronous calls, you won't have to worry about opening or closing the “loader”.
+# Method - (Extension) asyncLoader 
+###  Use the “asyncLoader” in asynchronous calls, you won't have to worry about opening or closing the “loader”.
 ```dart
- Future<void> loginSuccess() async {
-    final result = await _functionSuccess().asyncLoader();
-    debugPrint('Login Success result: $result');
-  }
+await Future.delayed(const Duration(seconds: 2)).asyncLoader();
 
 ///Personalized
-Future<void> loadMorePersonalized() async {
-    await _functionFailure().asyncLoader(
-      customLoader: HomeCustomLoaderSnackbar(),
-      loaderType: LoaderType.snackBar,
-    );
-  }
+await Future.delayed(const Duration(seconds: 2)).asyncLoader(
+  loader: const GlobalCustomLoading(),
+);
 ```
 -------------------------------------------------------------------------------------
-# Method - (Class OR Context Extension) AsyncLoaderHandler
-### The "AsyncLoaderHandler" method, allows you to have control over the open loader. Don't worry about “exceptions”, "asyncState" will close the loader if an “exception” is raised before you call “close”.
+# Method - (Extension) asyncLazyLoader 
+###  Use the “asyncLazyLoader” in asynchronous calls, it will maintain your loader opened so you can do something.
 ```dart
- Future<void> loginSuccessHandler() async {
-    final handler = AsyncLoaderHandler.start();
-    final result = await _functionSuccess().asyncLoader();
-    debugPrint('Login Success result: $result');
-    handler.close();
-  }
+await Future.delayed(const Duration(seconds: 2)).asyncLazyLoader();
 
-///OR On View
- ElevatedButton(
-  onPressed: () async {
-    context.startAsyncStateLoader();
-    await errorCall();
-    context.closeAsyncStateLoader();
-  },
-  child: const Text('Loader Error by context'),
-),
+// You can close by calling "AsyncLoader.hide()".
+// Or calling "asyncLoader" in another function, and it will take care of closing.
+
+await AsyncLoader.hide();
+//OR
+await Future.delayed(const Duration(seconds: 2)).asyncLoader();
 ```
 -------------------------------------------------------------------------------------
-# Method - (Interface Class) AsyncStateExceptionHandler
-### You can create a class that extends "AsyncStateExceptionHandler", with it, you can handle “exceptions” automatically and per route.
-#### It is necessary to check the "exception.runtimeType", or it will execute the action in any “exception”.
+# Method - (Extension) asyncAwaitLoader 
+###  Use the “asyncAwaitLoader” in asynchronous calls, it will call the loader only after the future was solved.
 ```dart
-class DetailExceptionHandler implements AsyncStateExceptionHandler {
-  @override
-  void onException(
-    Object exception,
-    StackTrace stackTrace,
-    BuildContext context,
-  ) {
-    switch (exception.runtimeType) {
-      case DetailException:
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              exception.toString(),
-            ),
-          ),
-        );
-      case _:
-        log(exception.toString());
-        break;
-    }
-  }
-}
+ await Navigator.of(context).pushNamed('/Detail').asyncAwaitLoader();
+// Here, we open the loader when we return from a page, to process the data received.
+debugPrint('Detail Page Closed - Do something here');
+await Future.delayed(const Duration(seconds: 2));
+await AsyncLoader.hide();
 ```
-### On Main
-#### In “main”, you can define a specific “AsyncStateExceptionHandler” for each route. The “_” is global, it will be used if the current route does not have a unique “AsyncStateExceptionHandler”.
+
+-------------------------------------------------------------------------------------
+# Function - OnError
+### The "onError" method, in "AsyncStateBuilder", allows you to handle application errors, generic or via routes, with access to parameters such as context, stackTrace, error and routeSettings.
 ```dart
- ///You can customize your exceptions handlers for route
-exceptionHandlers: {
-  '_': GlobalExceptionHandler(),
-  '/Home/Detail': DetailExceptionHandler(),
-},
+onError: (error, stackTrace, context, routeSettings) {
+        /// Here you can handle your exceptions
+        switch (routeSettings?.name ?? '') {
+          case '/Detail':
+            DetailPageHandlerException.onError(
+              error,
+              stackTrace,
+              context,
+              routeSettings,
+            );
+            break;
+          case _:
+            ScaffoldMessenger.of(context!).showSnackBar(
+              SnackBar(
+                content: Text(
+                  error.toString(),
+                ),
+              ),
+            );
+            break;
+        }
+      },
+```
+-------------------------------------------------------------------------------------
+# Handler - AsyncLoader (Show or Hide)
+### You can use "AsyncLoader.show()" and "AsyncLoader.hide()" to control the loader dynamically.
+```dart
+await AsyncLoader.show();
+await Future.delayed(const Duration(seconds: 2)).asyncLazyLoader();
+await AsyncLoader.hide();
+```
+-------------------------------------------------------------------------------------
+ # Type - AsyncValue
+#### "AsyncValue" is a class that extends "ValueNotifier" and adds some functions to help you, additionally methods for state control such as "Success", "Loading" and "Error", and shortcuts for quick definition.
+###### All methods like "setSuccess", "setError", "setLoading" e "refresh" call "notifyListener" automatically.
+```dart
+  final _userModel = AsyncValue<UserModel?>(null);
+  final _isLoading = false.asyncValue();
+
+// Method like
+_isLoading.setSuccess(false);
+_isLoading.setLoading();
+_isLoading.setError(error: MyException(), stackTrace: MyStackTrace());
+//or
+_userModel.setSuccess(UserModel(name: 'Leonardo Serrano'));
+
+// And ".build" to UI
+_userModel.build(
+ onSuccess: (user) => Text('User: ${user?.name}'),
+ onLoading: () => const CircularProgressIndicator(),
+ onError: (error, stackTrace) => Text('Error: $error'),
+),
+
+// Or change the value using the ".value" and call ".refresh()".
+_isLoading.value = false;
+_isLoading.refresh();
+
 ```
 
 # Bugs or Requests
@@ -175,6 +208,7 @@ If you encounter any problems feel free to open an [issue](https://github.com/De
   <tr>
     <td align="center"><a href="https://github.com/DevLSerrano"><img src="https://avatars.githubusercontent.com/u/62712813?v=4" width="100px;" alt=""/><br /><sub><b>Leonardo Serrano</b></sub></a><br /><a href="" title="Dev"></a></td>
     <td align="center"><a href="https://github.com/brasizza"><img src="https://avatars.githubusercontent.com/u/26041910?v=4" width="100px;" alt=""/><br /><sub><b>Marcus Brasizza</b></sub></a><br /><a href="" title="Dev"></a></td>
+    <td align="center"><a href="https://github.com/felipecastrosales"><img src="https://avatars.githubusercontent.com/u/59374587" width="100px;" alt=""/><br /><sub><b>Felipe Sales</b></sub></a><br /><a href="" title="Dev"></a></td>
   </tr>
 </table>
 

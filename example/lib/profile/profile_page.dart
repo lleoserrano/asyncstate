@@ -1,10 +1,25 @@
 import 'package:asyncstate/asyncstate.dart';
-import 'package:example/profile/widgets/loader_fetch_data.dart';
-import 'package:example/profile/widgets/loader_login.dart';
+import 'package:example/profile/profile_loader.dart';
+import 'package:example/profile/user_model.dart';
 import 'package:flutter/material.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  final _userModel = AsyncValue<UserModel?>(null);
+  final _isLoading = false.asyncValue();
+
+  @override
+  void dispose() {
+    _userModel.dispose();
+    _isLoading.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,73 +31,37 @@ class ProfilePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Tap to see 2 loaders running'),
+            const Text('User status'),
+            const SizedBox(
+              height: 8,
+            ),
+            _userModel.build(
+              onSuccess: (user) => Text('User: ${user?.name}'),
+              onLoading: () => const CircularProgressIndicator(),
+              onError: (error, stackTrace) => Text('Error: $error'),
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            _isLoading.build(
+              onSuccess: (isLogged) => Text('Is loading: $isLogged'),
+              onLoading: () => const CircularProgressIndicator(),
+              onError: (error, stackTrace) => Text('Error: $error'),
+            ),
             const SizedBox(
               height: 16,
             ),
             ElevatedButton(
               onPressed: () async {
-                AsyncState.show(asyncOverlay: LoaderLogin());
-                await Future.delayed(const Duration(seconds: 3));
-                LoaderLogin.tooltipController.show();
-                await Future.delayed(const Duration(seconds: 3));
-                AsyncState.hide(id: LoaderLogin.idLoaderLogin);
-              },
-              child: const Text('Loader Fetch Data and Login'),
-            ),
-            const Text('Tap to see an positioned loader'),
-            const SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                AsyncState.show(asyncOverlay: LoaderFetchData());
-                await Future.delayed(const Duration(seconds: 3));
-                AsyncState.hide(id: LoaderFetchData.idLoaderFetchData);
-              },
-              child: const Text('Loader Fetch Data and Login'),
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            const Text('Both and Communicate'),
-            const SizedBox(
-              height: 16,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await Future.delayed(
-                  const Duration(seconds: 2),
-                  () {
-                    return {
-                      'email': 'emailWrong.com',
-                      'pass': 'abc123',
-                    };
-                  },
-                ).asyncLoader(
-                  asyncOverlay: LoaderLogin(),
-                  autoHide: false,
+                _isLoading.setSuccess(true);
+                await Future.delayed(const Duration(seconds: 2), () {
+                  _userModel.setSuccess(UserModel(name: 'Leonardo Serrano'));
+                }).asyncLoader(
+                  loader: const ProfileLoader(),
                 );
-
-                ///--///--///
-                await Future.delayed(
-                  const Duration(seconds: 3),
-                  () {
-                    return {
-                      'email': 'EmailCorrect.com',
-                      'pass': 'abc123',
-                    };
-                  },
-                ).asyncLoader(
-                  asyncOverlay: LoaderFetchData(),
-                );
-
-                ///--///--///
-                LoaderLogin.tooltipController.show();
-                await Future.delayed(const Duration(seconds: 3));
-                AsyncState.hide(id: LoaderLogin.idLoaderLogin);
+                _isLoading.setSuccess(false);
               },
-              child: const Text('Both loaders'),
+              child: const Text('Call loading'),
             ),
           ],
         ),

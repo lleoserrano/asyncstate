@@ -21,9 +21,14 @@ class DetailPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                await errorCall().asyncLoader();
+                await Future.delayed(
+                  const Duration(seconds: 2),
+                  () {
+                    throw Exception('Error On Detail Page');
+                  },
+                ).asyncLoader();
               },
-              child: const Text('Loader Error  '),
+              child: const Text('Loader Error'),
             ),
           ],
         ),

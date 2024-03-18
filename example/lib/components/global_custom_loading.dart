@@ -1,16 +1,21 @@
-import 'package:asyncstate/asyncstate.dart';
 import 'package:flutter/material.dart';
 
-class GlobalCustomLoading extends AsyncOverlay {
-  static const int idGlobalCustomLoading = 0;
-  GlobalCustomLoading()
-      : super(
-          id: idGlobalCustomLoading,
-          builder: (context, settings) => Center(
-            child: SizedBox(
-              width: MediaQuery.sizeOf(context).width * .5,
-              child: const LinearProgressIndicator(),
-            ),
-          ),
-        );
+class GlobalCustomLoading extends StatelessWidget {
+  const GlobalCustomLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: const CircularProgressIndicator.adaptive(
+          backgroundColor: Colors.green,
+        ),
+      ),
+    );
+  }
 }

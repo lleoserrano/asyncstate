@@ -1,3 +1,14 @@
+## 3.0.0-dev.1
+- BREAKING CHANGE.
+- The "loaders" are now "Widgets", it is no longer necessary to be "AsyncOverlay".
+- Updated the "onError" method in "AsyncStateBuilder", with new parameters.
+- New extension called "asyncLazyLoader", which keeps the loader open after executing the future, so you can execute something.
+- New extension called "asyncAwaitLoader", which only calls the "loader" after the future is resolved.
+- New extension and class called "asyncValue", which allows you to create async values, and use ".build" to create the widget.
+- Removed old "WillPopScope" and used new "PopScope".
+- Updated the example and README, please check the new features and more details.
+
+
 ## 2.1.1-dev.1
 - BREAKING CHANGE.
 - New AsyncOverlay, now you can use the overlay to show the loader.

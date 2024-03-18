@@ -1,4 +1,5 @@
-import 'package:example/home_loader/home_loader_controller.dart';
+import 'package:asyncstate/asyncstate.dart';
+import 'package:example/components/global_custom_loading.dart';
 import 'package:flutter/material.dart';
 
 class HomeLoaderPage extends StatelessWidget {
@@ -13,44 +14,73 @@ class HomeLoaderPage extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () async {
-              await HomeLoaderController.loginPersonalizedLoader();
+              await Future.delayed(const Duration(seconds: 2)).asyncLoader(
+                loader: const GlobalCustomLoading(),
+              );
             },
-            child: const Text('Login Success Personalized'),
+            child: const Text('Async Loader Personalized'),
           ),
           const Divider(),
           ElevatedButton(
             onPressed: () async {
-              await HomeLoaderController.loginSuccess();
+              debugPrint(
+                await Future.delayed(const Duration(seconds: 5), () {
+                  return 'Async Loader Success';
+                }).asyncLoader(),
+              );
             },
-            child: const Text('Login Success'),
+            child: const Text('Async Loader Success'),
           ),
           const Divider(),
           ElevatedButton(
             onPressed: () async {
-              await HomeLoaderController.loginSuccessHandler();
+              final first =
+                  await Future.delayed(const Duration(seconds: 2), () {
+                return 'Async Loader Lazy';
+              }).asyncLazyLoader();
+
+              debugPrint(first);
+
+              final second =
+                  await Future.delayed(const Duration(seconds: 2), () {
+                return 'Async Loader Lazy - Second operation';
+              });
+
+              debugPrint(second);
+
+              await AsyncLoader.hide();
             },
-            child: const Text('Login Success Handler'),
+            child: const Text('Async Loader Lazy'),
           ),
           const Divider(),
           ElevatedButton(
             onPressed: () async {
-              await HomeLoaderController.loginFailure();
+              final first =
+                  await Future.delayed(const Duration(seconds: 2), () {
+                return 'Async Loader Lazy';
+              }).asyncLazyLoader();
+
+              debugPrint(first);
+
+              final second =
+                  await Future.delayed(const Duration(seconds: 2), () {
+                return 'Async Loader Lazy - Second operation';
+              }).asyncLoader(
+                loader: const GlobalCustomLoading(),
+              );
+
+              debugPrint(second);
             },
-            child: const Text('Login Error'),
+            child: const Text('Async Loader Lazy - Changing Loader'),
           ),
           const Divider(),
           ElevatedButton(
             onPressed: () async {
-              await HomeLoaderController.loginFailureHandler();
+              await Future.delayed(const Duration(seconds: 2), () {
+                throw Exception('Async Loader Error');
+              }).asyncLoader();
             },
-            child: const Text('Login Error Handler'),
-          ),
-          const Divider(),
-          ElevatedButton(
-            onPressed: () async {
-              await HomeLoaderController.loadMorePersonalized();
-            },
-            child: const Text('Load More Personalized'),
+            child: const Text('Async Loader Error'),
           ),
           const Divider(),
           ElevatedButton(
@@ -58,7 +88,13 @@ class HomeLoaderPage extends StatelessWidget {
               backgroundColor: Colors.blueGrey[900],
             ),
             onPressed: () async {
-              Navigator.of(context).pushNamed('/Root/HomeLoader/Detail');
+              await Navigator.of(context).pushNamed('/Detail').asyncAwaitLoader(
+                    loader: const GlobalCustomLoading(),
+                  );
+
+              debugPrint('Detail Page Closed - Do something here');
+              await Future.delayed(const Duration(seconds: 2));
+              await AsyncLoader.hide();
             },
             child: const Text('Detail Page'),
           ),
@@ -68,17 +104,12 @@ class HomeLoaderPage extends StatelessWidget {
               backgroundColor: Colors.blueGrey[900],
             ),
             onPressed: () async {
-              Navigator.of(context).pushNamed('/Root/HomeLoader/ProfilePage');
+              Navigator.of(context).pushNamed('/Profile');
             },
             child: const Text('Go to Profile Page'),
           ),
         ],
       ),
     );
-  }
-
-  Future<void> errorCall() async {
-    await Future.delayed(const Duration(seconds: 2));
-    throw Exception('Error');
   }
 }
