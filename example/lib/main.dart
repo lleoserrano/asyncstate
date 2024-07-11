@@ -1,5 +1,4 @@
 import 'package:asyncstate/asyncstate.dart';
-import 'package:example/components/global_loading.dart';
 import 'package:example/detail/detail_page.dart';
 import 'package:example/detail/detail_page_handler_exception.dart';
 import 'package:example/profile/profile_page.dart';
@@ -20,7 +19,7 @@ class MyApp extends StatelessWidget {
     return AsyncStateBuilder(
       /// Here you can customize your default loading that will show every transaction
       /// Leave it and it will show a simple CircularProgress.adaptive indicator
-      loader: const GlobalLoading(),
+      // loader: const GlobalLoading(),
       onError: (error, stackTrace, context, routeSettings) {
         /// Here you can handle your exceptions
         switch (routeSettings?.name ?? '') {

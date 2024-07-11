@@ -11,8 +11,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final _userModel = AsyncValue<UserModel?>(null);
-  final _isLoading = false.asyncValue();
+  final _userModel = AsyncStateNotifier<UserModel?>(null);
+  final _isLoading = false.obs;
+
+  final _isNulLoading = null.obsNullable<bool>();
 
   @override
   void dispose() {
@@ -44,7 +46,7 @@ class _ProfilePageState extends State<ProfilePage> {
               height: 16,
             ),
             _isLoading.build(
-              onSuccess: (isLogged) => Text('Is loading: $isLogged'),
+              onSuccess: (isLoading) => Text('Is loading: $isLoading'),
               onLoading: () => const CircularProgressIndicator(),
               onError: (error, stackTrace) => Text('Error: $error'),
             ),
@@ -53,13 +55,14 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
             ElevatedButton(
               onPressed: () async {
-                _isLoading.setSuccess(true);
+                _isLoading.setLoading();
                 await Future.delayed(const Duration(seconds: 2), () {
-                  _userModel.setSuccess(UserModel(name: 'Leonardo Serrano'));
+                  _userModel.setSuccess(
+                      value: UserModel(name: 'Leonardo Serrano'));
                 }).asyncLoader(
                   loader: const ProfileLoader(),
                 );
-                _isLoading.setSuccess(false);
+                _isLoading.setSuccess(value: false);
               },
               child: const Text('Call loading'),
             ),

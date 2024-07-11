@@ -23,6 +23,30 @@ class HomeLoaderPage extends StatelessWidget {
           const Divider(),
           ElevatedButton(
             onPressed: () async {
+              showDialog(
+                context: context,
+                useRootNavigator: true,
+                builder: (context) => AlertDialog(
+                  title: const Text('My dialog'),
+                  actions: [
+                    TextButton(
+                      onPressed: () async {
+                        await Future.delayed(const Duration(seconds: 2))
+                            .asyncLoader(
+                          loader: const GlobalCustomLoading(),
+                        );
+                      },
+                      child: const Text('Async call'),
+                    ),
+                  ],
+                ),
+              );
+            },
+            child: const Text('Async Loader on dialog'),
+          ),
+          const Divider(),
+          ElevatedButton(
+            onPressed: () async {
               debugPrint(
                 await Future.delayed(const Duration(seconds: 5), () {
                   return 'Async Loader Success';
