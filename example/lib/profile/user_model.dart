@@ -1,4 +1,4 @@
-class UserModel {
+final class UserModel {
   final String name;
 
   UserModel({required this.name});

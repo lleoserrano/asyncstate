@@ -15,7 +15,7 @@ class DetailPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-                'Here we cath the error and show by detail_exception_handler'),
+                'Here we catch the error and show by detail_exception_handler'),
             const SizedBox(
               height: 16,
             ),
