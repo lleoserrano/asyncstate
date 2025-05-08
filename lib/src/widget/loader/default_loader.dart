@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 
-class DefaultLoader extends StatelessWidget {
-  const DefaultLoader({Key? key}) : super(key: key);
+class GenericLoaderWidget extends StatelessWidget {
+  const GenericLoaderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox(
-      width: 50,
-      height: 50,
-      child: Center(
-        child: CircularProgressIndicator.adaptive(),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: const SizedBox(
+        width: 50,
+        height: 50,
+        child: Center(
+          child: CircularProgressIndicator.adaptive(),
+        ),
       ),
     );
   }

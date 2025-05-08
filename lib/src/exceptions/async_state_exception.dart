@@ -1,28 +1,19 @@
-import 'dart:developer';
-
 class AsyncStateException implements Exception {
   final String exception;
-  //An exception to handle the context error, when you forget to put the observer
   AsyncStateException.errorContext({
     this.exception =
-        'Context not found. Did you forget to add the AsyncState.observer in your navigatorObservers?',
-  }) {
-    log(exception);
-  }
+        '🚨 Context not found. Did you forget to add the AsyncState.observer in your navigatorObservers?',
+  });
 
-  AsyncStateException.errorCustomLoaderSnackbar({
+  AsyncStateException.errorLoaderAlreadyOpen({
     this.exception =
-        'If you use LoaderType.snackBar, you need to pass a SnackBar widget as customLoader',
-  }) {
-    log(exception);
-  }
+        '🚨 #SafeWarn Loader already open. Did you forget to close the loader?',
+  });
 
-  AsyncStateException.errorCustomLoaderMaterialBanner({
+  AsyncStateException.errorLoaderNotOpen({
     this.exception =
-        'If you use LoaderType.materialBanner, you need to pass a materialBanner widget as customLoader',
-  }) {
-    log(exception);
-  }
+        '🚨 #SafeWarn Loader not open. Did you forget to open the loader?',
+  });
 
   @override
   String toString() => exception;

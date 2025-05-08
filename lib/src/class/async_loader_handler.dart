@@ -1,4 +1,4 @@
-import 'dart:async';
+/* import 'dart:async';
 
 import 'package:asyncstate/src/src.dart';
 import 'package:flutter/material.dart';
@@ -44,3 +44,4 @@ class AsyncLoaderHandler {
     }
   }
 }
+ */

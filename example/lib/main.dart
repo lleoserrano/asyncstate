@@ -12,7 +12,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,23 +26,25 @@ class MyApp extends StatelessWidget {
       enableLog: true,
 
       ///You can customize your exceptions handlers for route
-      exceptionHandlers: {
+      exceptionHandler: {
         '_': GlobalExceptionHandler(),
         '/Home/Detail': DetailExceptionHandler(),
       },
-      builder: (navigatorObserver) => MaterialApp(
-        themeMode: ThemeMode.dark,
-        theme: ThemeData.dark(),
+      builder:
+          (navigatorObserver) => MaterialApp(
+            themeMode: ThemeMode.dark,
+            theme: ThemeData.dark(),
 
-        /// Here you need to pass the navigatorObserver to the MaterialApp
-        navigatorObservers: [navigatorObserver],
-        initialRoute: '/Home',
-        routes: {
-          '/Home': (context) => const HomePage(),
-          '/Home/Detail': (context) => const DetailPage(),
-          '/Home/Detail/SecondDetail': (context) => const SecondDetailPage(),
-        },
-      ),
+            /// Here you need to pass the navigatorObserver to the MaterialApp
+            navigatorObservers: [navigatorObserver],
+            initialRoute: '/Home',
+            routes: {
+              '/Home': (context) => const HomePage(),
+              '/Home/Detail': (context) => const DetailPage(),
+              '/Home/Detail/SecondDetail':
+                  (context) => const SecondDetailPage(),
+            },
+          ),
     );
   }
 }

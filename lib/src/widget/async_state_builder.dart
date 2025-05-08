@@ -1,21 +1,20 @@
 import 'package:asyncstate/src/src.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AsyncStateBuilder extends StatefulWidget {
   final Widget customLoader;
   final Widget Function(AsyncNavigatorObserver) builder;
-  final Map<String, AsyncStateExceptionHandler> exceptionHandlers;
+  final Map<String, AsyncStateExceptionHandler> exceptionHandler;
   final bool enableLog;
 
   const AsyncStateBuilder({
     super.key,
     this.enableLog = true,
-    this.customLoader = const DefaultLoader(),
-    this.exceptionHandlers = const {},
+    this.customLoader = const GenericLoaderWidget(),
+    this.exceptionHandler = const {},
     required this.builder,
-  }) : super();
+  });
 
   @override
   State<AsyncStateBuilder> createState() => _AsyncStateBuilderState();
@@ -24,31 +23,29 @@ class AsyncStateBuilder extends StatefulWidget {
 class _AsyncStateBuilderState extends State<AsyncStateBuilder> {
   void _checkExceptionHandlerOnCurrentRoute(
       Object exception, StackTrace stackTrace) {
-    if (widget.exceptionHandlers.containsKey(asyncState.currentRouteName)) {
-      widget.exceptionHandlers[asyncState.currentRouteName]?.onException(
+    if (widget.exceptionHandler.containsKey(asyncStateCore.currentRouteName)) {
+      widget.exceptionHandler[asyncStateCore.currentRouteName]?.onException(
         exception,
         stackTrace,
-        asyncState.context!,
+        asyncStateCore.context!,
       );
-    } else if (widget.exceptionHandlers.containsKey('_')) {
-      widget.exceptionHandlers['_']!.onException(
+    } else if (widget.exceptionHandler.containsKey('_')) {
+      widget.exceptionHandler['_']!.onException(
         exception,
         stackTrace,
-        asyncState.context!,
+        asyncStateCore.context!,
       );
     }
   }
 
   @override
   void initState() {
-    asyncState = AsyncState(
+    asyncStateCore = AsyncStateCore(
       defaultDialog: widget.customLoader,
       enableLog: widget.enableLog,
     );
     PlatformDispatcher.instance.onError = (error, stack) {
-      for (var handler in listOfASyncLoaderHandlers) {
-        handler.close();
-      }
+      AsyncState.closeLoader();
       Future.microtask(
         () => _checkExceptionHandlerOnCurrentRoute(error, stack),
       );
@@ -59,10 +56,8 @@ class _AsyncStateBuilderState extends State<AsyncStateBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) => widget.builder(
-        AsyncNavigatorObserver(),
-      ),
+    return widget.builder(
+      asyncStateCore.observer,
     );
   }
 }

@@ -1,1 +1,2 @@
-enum LoaderType { alertDialog, snackBar, materialBanner }
+/* enum LoaderType { alertDialog, snackBar, materialBanner }
+ */

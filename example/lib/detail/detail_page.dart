@@ -23,11 +23,11 @@ class DetailPage extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
-                context.startAsyncStateLoader(
-                  customLoader: const GlobalCustomLoading(),
+                context.showLoader(
+                  loader: const GlobalCustomLoading(),
                 );
                 await errorCall();
-                context.closeAsyncStateLoader();
+                context.closeLoader();
               },
               child: const Text('Loader Error  '),
             ),

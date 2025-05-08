@@ -3,7 +3,7 @@ import 'package:example/home/home_controller.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
     final controller = HomeController();
@@ -57,18 +57,18 @@ class HomePage extends StatelessWidget {
           const Divider(),
           ElevatedButton(
             onPressed: () async {
-              context.startAsyncStateLoader();
+              context.showLoader();
               await Future.delayed(const Duration(seconds: 2));
-              context.closeAsyncStateLoader();
+              context.closeLoader();
             },
             child: const Text('Loader by context'),
           ),
           const Divider(),
           ElevatedButton(
             onPressed: () async {
-              context.startAsyncStateLoader();
+              context.showLoader();
               await errorCall();
-              context.closeAsyncStateLoader();
+              context.closeLoader();
             },
             child: const Text('Loader Error by context'),
           ),
